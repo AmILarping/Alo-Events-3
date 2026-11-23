@@ -322,37 +322,32 @@ a.tile .tag{text-decoration:underline;text-decoration-color:var(--c);text-decora
 /* Hintergrundfoto wie auf der AKTUELLE-Startseite, abgedunkelt, damit das Neon wirkt */
 .dialer{isolation:isolate}
 .dialer > .bg{position:absolute;inset:0;z-index:-1;background:#000}
+.dialer > .bg .pic{-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 42%,rgba(0,0,0,.6) 56%,rgba(0,0,0,.22) 66%,rgba(0,0,0,.05) 72%,transparent 76%);mask-image:linear-gradient(180deg,#000 0%,#000 42%,rgba(0,0,0,.6) 56%,rgba(0,0,0,.22) 66%,rgba(0,0,0,.05) 72%,transparent 76%)}
+.dialer > .bg::before{content:"";position:absolute;left:-10%;right:-10%;top:36%;height:50%;z-index:1;pointer-events:none;
+  background:radial-gradient(55% 40% at 50% 62%,rgba(237,21,102,.24),transparent 100%);mix-blend-mode:screen;animation:haze 9s ease-in-out infinite alternate}
+@keyframes haze{from{transform:translateX(-3%) scaleY(.9);opacity:.75}to{transform:translateX(3%) scaleY(1.08);opacity:1}}
+@media (prefers-reduced-motion:reduce){.dialer > .bg::before{animation:none}}
 .dialer > .bg .pic{display:block;width:100%;height:100%;object-fit:cover;object-position:60% 55%;filter:saturate(1.25)}
 .dialer > .bg::after{content:"";position:absolute;inset:0;background:
   radial-gradient(50% 30% at 50% 34%,rgba(0,0,0,.6),rgba(0,0,0,0) 85%),
-  linear-gradient(180deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.62) 42%,rgba(0,0,0,.45) 62%,rgba(0,0,0,.9) 100%)}
+  linear-gradient(180deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.62) 42%,rgba(0,0,0,.5) 58%,#000 80%,#000 100%)}
 @media (max-width:820px){.dialer > .bg .pic{object-position:30% 50%}}
 
-/* Neon-Menü */
-.neon ol{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px clamp(18px,3vw,44px)}
-.neon a{--c:var(--pink);paint-order:stroke fill;display:flex;align-items:center;gap:.4em;text-decoration:none;font-family:'Tilt Neon',Sora,sans-serif;
-  font-size:clamp(22px,2.3vw,34px);line-height:1.2;letter-spacing:.02em;color:color-mix(in srgb,var(--c) 55%,#fff);
-  text-shadow:0 0 1px #fff,0 0 6px var(--c),0 0 14px color-mix(in srgb,var(--c) 70%,transparent);
-  opacity:.88;transition:opacity .25s,text-shadow .25s,transform .25s}
-.neon .n{flex:none;width:1.3em;height:1.3em;border-radius:50%;display:grid;place-items:center;font-size:.72em;border:.09em solid currentColor;box-shadow:0 0 6px var(--c),inset 0 0 6px var(--c)}
-.neon a:hover,.neon a:focus-visible,.neon a.is-hot,.neon a.is-active{opacity:1;outline:none;transform:translateY(-3px);color:color-mix(in srgb,var(--c) 30%,#fff);
-  text-shadow:0 0 2px #fff,0 0 8px var(--c),0 0 18px var(--c),0 0 42px var(--c),0 0 80px color-mix(in srgb,var(--c) 60%,transparent)}
-.neon a:hover .n,.neon a.is-hot .n,.neon a.is-active .n,.neon a:focus-visible .n{box-shadow:0 0 8px var(--c),0 0 24px var(--c),inset 0 0 10px var(--c)}
-.neon a.is-active{animation:buzz .12s steps(2) infinite}
-@keyframes buzz{50%{opacity:.82}}
-.sound{position:absolute!important;top:16px;right:16px;z-index:10;background:none;border:1px solid #333;color:#888;font:600 12px Sora,sans-serif;padding:7px 12px;border-radius:99px;cursor:pointer}
-.sound[aria-pressed="true"]{border-color:var(--lime);color:var(--lime)}
-
 /* Bühne: groß, mittig, ragt unten über den Rand */
-.tel-stage{container-type:inline-size;margin-top:auto;width:min(1250px,128vw,max(640px,calc((100svh - 360px) / .362)));left:50%;translate:-61.7% 0;padding-top:3%}
-.tel-stage .tel{margin-bottom:-17.8%} /* schneidet knapp unter der Wählscheibe ab */
+.tel-stage{container-type:inline-size;margin-top:auto;width:min(1250px,128vw,max(640px,calc((100svh - 300px) / .5)));left:50%;translate:-61.7% 0;padding-top:3%}
+.tel-stage .tel{margin-bottom:-1%}
+/* Telefon steht auf einem glänzenden schwarzen Boden: Spiegelung + pinker Lichtfleck vom Logo */
+.tel{-webkit-box-reflect:below -2.4cqw linear-gradient(transparent 62%,rgba(255,255,255,.22))}
+.tel-stage{padding-bottom:16%}
+.tel-stage::before{content:"";position:absolute;left:18%;right:4%;bottom:2%;height:16%;z-index:-1;pointer-events:none;
+  background:radial-gradient(50% 50% at 60% 50%,rgba(237,21,102,.42),rgba(237,21,102,.12) 45%,transparent 72%);filter:blur(6px)}
 .tel{position:relative;aspect-ratio:1280/658;width:100%}
 .tel img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;user-select:none}
 .l-handset{transform-origin:25.2% 30.4%;z-index:1}
 .l-body{z-index:2}
 .tel.shake{animation:shake .45s linear}
 @keyframes shake{10%,50%,90%{translate:-0.6cqw 0}30%,70%{translate:.6cqw 0}100%{translate:0 0}}
-@media (max-width:700px){.tel-stage{width:205vw;padding-top:8%}.tel-tag{letter-spacing:.14em;font-size:11px}}
+@media (max-width:700px){.tel-stage{width:165vw;padding-top:10%}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.lit,.tel.lit{animation:none}}
 
 /* Ziffern auf der Platte unter der Scheibe (durch die Löcher sichtbar) */
@@ -372,33 +367,73 @@ a.tile .tag{text-decoration:underline;text-decoration-color:var(--c);text-decora
 .burst text{font-family:Anton,sans-serif}
 .lines{width:40cqw;translate:-50% -50%}
 
-.tel-ctas{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 22px;margin-top:clamp(14px,2.4vh,26px)}
-.tel-more{font:600 13px Sora,sans-serif;color:#d9c2cc;text-decoration:none;letter-spacing:.04em}
-.tel-more:hover{color:#fff}
-.dialer h2.tel-tag{font:600 13px Sora,sans-serif}
 .dialer ol{margin:0;padding:0}
+
+/* ===== Rework: Tickets oben rechts, Telefonliste unter dem Telefon ===== */
+.tel-tickets{position:absolute!important;top:clamp(14px,2.4vw,26px);right:clamp(14px,2.4vw,30px);z-index:10;background:var(--lime,#E0FF22);color:#000;
+  font:700 15px/1 "Sora",sans-serif;text-decoration:none;padding:12px 20px;border-radius:6px}
+.tel-tickets:hover{background:#fff}
+.tel-tickets:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.tel-stage{margin-top:clamp(8px,3vh,36px)}
+.digits text{--c:#ED1566}
+
+.register{position:relative;z-index:3;width:min(760px,calc(100% - 32px));margin:clamp(-130px,-8vw,-36px) auto clamp(8px,2vw,24px);text-align:left}
+.rg-card{position:relative;background-color:#F2EBDB;color:#141414;border-radius:3px;padding:26px 30px 18px 74px;transform:rotate(-1.1deg);
+  box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 2px 3px rgba(0,0,0,.35),0 22px 40px -12px rgba(0,0,0,.75);
+  background-image:
+    repeating-linear-gradient(180deg,transparent 0,transparent 43px,rgba(52,98,160,.22) 43px,rgba(52,98,160,.22) 44px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-position:0 91px,0 0}
+.rg-card::before{content:"";position:absolute;top:0;bottom:0;left:56px;width:1.5px;background:rgba(205,48,48,.6)}
+.rg-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;height:62px}
+.rg-head h2{margin:0;font:400 clamp(30px,4vw,42px)/1 "Anton",Impact,sans-serif;letter-spacing:.005em;color:#141414;text-transform:none}
+.rg-sub{font:400 12px/1 "Courier New",Courier,monospace;letter-spacing:.06em;text-transform:uppercase;color:#6b6457}
+.rg-list{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;grid-template-rows:repeat(5,44px);column-gap:34px}
+.rg-list li{display:flex;align-items:flex-end}
+.rg-list a,.rg-free{width:100%}
+.rg-list a{display:flex;align-items:baseline;gap:14px;padding:0 6px 7px;margin:0 -6px;color:inherit;text-decoration:none;border-radius:2px;transition:background .2s}
+.rg-free{display:flex;align-items:baseline;gap:14px;padding:0 0 7px}
+.rg-n{flex:none;width:22px;font:400 26px/1 "Anton",Impact,sans-serif;color:#C8261C}
+.rg-name{font:700 19px/1 "Courier New",Courier,monospace;letter-spacing:.01em}
+.rg-note{margin-left:auto;font:400 12px/1 "Courier New",Courier,monospace;color:#7a7264;white-space:nowrap}
+.rg-free .rg-n{color:#b9b09f}.rg-free .rg-name{font-weight:400;color:#a39a89;font-style:italic}
+.rg-list a:hover,.rg-list a:focus-visible,.rg-list a.is-hot,.rg-list a.is-active{background:linear-gradient(transparent 38%,rgba(214,245,20,.85) 38%,rgba(214,245,20,.85) 92%,transparent 92%);outline:none}
+.rg-list a.is-active .rg-name{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+@media (max-width:640px){
+  .register{margin-top:-44px}
+  .rg-card{padding:20px 16px 12px 52px;transform:rotate(-.6deg);background-position:0 85px,0 0}
+  .rg-card::before{left:38px}
+  .dialer{min-height:0}
+  .rg-head{flex-direction:column;align-items:flex-start;gap:6px;height:auto;margin-bottom:6px}
+  .rg-list{grid-template-columns:1fr;grid-auto-flow:row;grid-template-rows:none;grid-auto-rows:44px}
+  .rg-note{display:none}
+  .rg-list{grid-auto-rows:auto}
+  .rg-list li{min-height:44px}
+  .rg-list li.rg-free{min-height:30px}
+}
+
+/* Tamara: Foto im Hintergrund (vorläufig Partyfoto, wird durch Tamaras Foto ersetzt: img/tamara-hintergrund) */
+.about{isolation:isolate;overflow:hidden}
+.about::before{z-index:-1}
+.about-bg{position:absolute;inset:0;z-index:-2;pointer-events:none}
+.about-bg img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 35%;filter:saturate(1.15)}
+.about-bg::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(180deg,#000 0%,rgba(0,0,0,.55) 22%,rgba(0,0,0,.5) 70%,#000 100%),
+  linear-gradient(90deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.55) 40%,rgba(0,0,0,.82) 62%,rgba(0,0,0,.88) 100%)}
+@media (max-width:980px){.about-bg::after{background:linear-gradient(180deg,#000 0%,rgba(0,0,0,.5) 18%,rgba(0,0,0,.72) 45%,rgba(0,0,0,.9) 70%,#000 100%)}}
+.rg-free{min-height:1px}
 </style>
+<link rel="stylesheet" href="css/telefonliste.css">
 </head>
 <body data-home-page>
 
 <a class="skip" href="#main">Zum Inhalt springen</a>
 
 <main id="main">
-  <section class="dialer" id="start" aria-labelledby="dialer-title">
+  <section class="dialer" id="start" aria-label="ALÓ Events – Start">
   <div class="bg" aria-hidden="true"><img class="pic" src="img/hero-hintergrund-1920.webp" srcset="img/hero-hintergrund-1100.webp 1100w, img/hero-hintergrund-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high"></div>
-  <button class="sound" type="button" aria-pressed="false">🔈 Ton aus</button>
+  <a class="tel-tickets" href="https://www.tickettailor.com/all-tickets/aloevents/">Tickets</a>
   <div class="logo lit" role="img" aria-label="ALÓ"><span>ALÓ</span></div>
-  <h2 class="tel-tag" id="dialer-title"><b>¿Quién habla?</b> · Wähl eine Nummer</h2>
-  <nav class="neon" aria-label="Menü">
-    <ol id="menu">
-      <li><a href="partys.html" data-digit="1" data-label="Partys" style="--c:#E0FF22"><span class="n">1</span>Partys</a></li>
-      <li><a href="termine.html" data-digit="2" data-label="Termine" style="--c:#1EF2FF"><span class="n">2</span>Termine</a></li>
-      <li><a href="pasaporte.html" data-digit="3" data-label="Pasaporte" style="--c:#ED1566"><span class="n">3</span>Pasaporte</a></li>
-      <li><a href="shop.html" data-digit="4" data-label="Shop" style="--c:#E0FF22"><span class="n">4</span>Shop</a></li>
-      <li><a href="kontakt.html" data-digit="5" data-label="Kontakt" style="--c:#1EF2FF"><span class="n">5</span>Kontakt</a></li>
-    </ol>
-  </nav>
-  <div class="tel-ctas"><a class="btn btn-main" href="https://www.tickettailor.com/all-tickets/aloevents/">Tickets sichern</a><a class="tel-more" href="#ueber-uns">Wer steckt dahinter? ↓</a></div>
   <div class="tel-stage">
     <div class="tel lit" id="phone">
       <img class="l-handset" src="img/telefon/handset.webp" alt="">
@@ -414,8 +449,16 @@ a.tile .tag{text-decoration:underline;text-decoration-color:var(--c);text-decora
     </div>
   </div>
 </section>
+  <nav class="register" aria-labelledby="rg-title">
+    <div class="rg-card">
+      <header class="rg-head"><h2 id="rg-title">¿Quién habla?</h2><span class="rg-sub">Telefonliste · ALÓ Events</span></header>
+      <ol id="menu" class="rg-list"><li><a href="shop.html" data-digit="1" data-label="Shop"><span class="rg-n">1</span><span class="rg-name">Shop</span><span class="rg-note">Merch &amp; Fächer</span></a></li><li><a href="partys.html" data-digit="2" data-label="Partys"><span class="rg-n">2</span><span class="rg-name">Partys</span><span class="rg-note">ALÓ &amp; PASAPORTE</span></a></li><li><a href="termine.html" data-digit="3" data-label="Termine"><span class="rg-n">3</span><span class="rg-name">Termine</span><span class="rg-note">Nächste Nächte</span></a></li><li><a href="kontakt.html" data-digit="4" data-label="Kontakt"><span class="rg-n">4</span><span class="rg-name">Kontakt</span><span class="rg-note">Event anfragen</span></a></li><li><a href="pasaporte.html" data-digit="5" data-label="Pasaporte"><span class="rg-n">5</span><span class="rg-name">Pasaporte</span><span class="rg-note">Die Reihe by ALÓ</span></a></li><li class="rg-free" aria-hidden="true"><span class="rg-n">6</span></li><li class="rg-free" aria-hidden="true"><span class="rg-n">7</span></li><li class="rg-free" aria-hidden="true"><span class="rg-n">8</span></li><li class="rg-free" aria-hidden="true"><span class="rg-n">9</span></li><li class="rg-free" aria-hidden="true"><span class="rg-n">0</span></li></ol>
+    </div>
+  </nav>
+
 
   <section class="about" id="ueber-uns" aria-labelledby="h-about">
+    <div class="about-bg" aria-hidden="true"><img src="https://static.wixstatic.com/media/558ab8_7e18d1fda32b40288983ae8343539283~mv2.png/v1/fill/w_1600,h_1067,al_c,q_78,enc_auto/pasaporte-latin-party-clubhalle.jpg" srcset="https://static.wixstatic.com/media/558ab8_7e18d1fda32b40288983ae8343539283~mv2.png/v1/fill/w_900,h_600,al_c,q_78,enc_auto/pasaporte-latin-party-clubhalle.jpg 900w, https://static.wixstatic.com/media/558ab8_7e18d1fda32b40288983ae8343539283~mv2.png/v1/fill/w_1600,h_1067,al_c,q_78,enc_auto/pasaporte-latin-party-clubhalle.jpg 1600w, https://static.wixstatic.com/media/558ab8_7e18d1fda32b40288983ae8343539283~mv2.png/v1/fill/w_2200,h_1467,al_c,q_78,enc_auto/pasaporte-latin-party-clubhalle.jpg 2200w" sizes="100vw" alt="" loading="lazy"></div>
     <figure class="polaroid">
       <img class="pic" src="img/tamara-alo-events.webp" width="266" height="375" alt="Tamara, Gründerin von ALÓ Events, lacht mit dem Hörer des ALÓ-Telefons am Ohr" loading="lazy">
       <figcaption>Aló? – Tamara</figcaption>
@@ -431,7 +474,7 @@ a.tile .tag{text-decoration:underline;text-decoration-color:var(--c);text-decora
     </div>
   </section>
 </main>
-<footer class="foot"><div class="cord" aria-hidden="true"></div><div class="foot-in"><a class="alo-dot" href="index.html" data-home aria-label="ALÓ Events, zur Startseite">ALÓ</a><p class="foot-claim">ALÓ – <span>The call that connects.</span></p><ul aria-label="Social Media"><li><a href="https://www.instagram.com/wearealoevents/">Instagram</a></li><li><a href="https://www.tiktok.com/@alo.events">TikTok</a></li><li><a href="https://www.facebook.com/wearealoevents">Facebook</a></li></ul><div class="foot-legal"><p>© 2026 ALÓ Event Experiences UG</p><ul aria-label="Rechtliches"><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="agb.html">AGB</a></li></ul></div></div></footer>
+<footer class="foot"><div class="foot-in"><a class="alo-dot" href="index.html" data-home aria-label="ALÓ Events, zur Startseite">ALÓ</a><p class="foot-claim">ALÓ – <span>The call that connects.</span></p><ul aria-label="Social Media"><li><a href="https://www.instagram.com/wearealoevents/">Instagram</a></li><li><a href="https://www.tiktok.com/@alo.events">TikTok</a></li><li><a href="https://www.facebook.com/wearealoevents">Facebook</a></li></ul><div class="foot-legal"><p>© 2026 ALÓ Event Experiences UG</p><ul aria-label="Rechtliches"><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="agb.html">AGB</a></li></ul></div></div></footer>
 <script>
 (() => {
   // Geometrie aus dem Foto (1280×658 px)
@@ -454,7 +497,7 @@ a.tile .tag{text-decoration:underline;text-decoration-color:var(--c);text-decora
   const byDigit = Object.fromEntries(links.map(a => [a.dataset.digit, a]));
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const pct = (x, y) => ({left: x / G.W * 100 + '%', top: y / G.H * 100 + '%'});
-  let busy = false, soundOn = false, ctx;
+  let busy = false;
 
   // Ziffern auf der Platte + Klickflächen über den Löchern
   const HOLES = {1:[840.6,210.8],2:[785.0,203.2],3:[730.1,211.8],4:[686.0,235.3],5:[662.2,269.6],6:[663.2,304.1],7:[689.6,339.6],8:[735.0,362.6],9:[790.1,370.1],0:[841.4,361.8]};
@@ -488,32 +531,6 @@ a.tile .tag{text-decoration:underline;text-decoration-color:var(--c);text-decora
     a.addEventListener('click', e => { e.preventDefault(); dialTo(d); });
   });
 
-  // Ton (standardmäßig aus)
-  const soundBtn = document.querySelector('.sound');
-  soundBtn.addEventListener('click', () => {
-    soundOn = !soundOn;
-    soundBtn.setAttribute('aria-pressed', soundOn);
-    soundBtn.textContent = soundOn ? '🔊 Ton an' : '🔈 Ton aus';
-  });
-  function click(at){
-    if (!soundOn) return;
-    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-    const len = 0.025, buf = ctx.createBuffer(1, ctx.sampleRate * len, ctx.sampleRate), ch = buf.getChannelData(0);
-    for (let i = 0; i < ch.length; i++) ch[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / ch.length, 4);
-    const src = ctx.createBufferSource(), g = ctx.createGain(); g.gain.value = .35;
-    src.buffer = buf; src.connect(g).connect(ctx.destination); src.start(ctx.currentTime + at);
-  }
-  function ring(){
-    if (!soundOn) return;
-    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-    const o = ctx.createOscillator(), g = ctx.createGain(), lfo = ctx.createOscillator(), lg = ctx.createGain();
-    o.frequency.value = 880; lfo.frequency.value = 22; lg.gain.value = .25;
-    lfo.connect(lg).connect(g.gain); g.gain.value = .12;
-    o.connect(g).connect(ctx.destination);
-    const t = ctx.currentTime; o.start(t); lfo.start(t);
-    g.gain.setValueAtTime(.12, t + .5); g.gain.linearRampToValueAtTime(0, t + .6);
-    o.stop(t + .6); lfo.stop(t + .6);
-  }
 
   const T = deg => `scaleY(${G.k}) rotate(${deg}deg) scaleY(${1 / G.k})`;
   const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -571,12 +588,10 @@ a.tile .tag{text-decoration:underline;text-decoration-color:var(--c);text-decora
 
     // 2) Zurückschnurren mit Klicks
     const back = 180 + deg * 2.6, pulses = d === '0' ? 10 : +d;
-    for (let i = 0; i < pulses; i++) click((back / 1000) * (i + .5) / pulses);
     fx('KLICK-KLICK', 560, 470, 'sticker', [{opacity:0, translate:'0 10%'}, {opacity:1, translate:'0 0', offset:.25}, {opacity:1, offset:.75}, {opacity:0}], {duration: back + 200});
     await spin(deg, 0, {duration: back, easing:'linear'});
 
     // 3) Hörer hebt ab und wackelt + Comic-Burst
-    ring();
     phone.classList.remove('lit','shake'); void phone.offsetWidth; phone.classList.add('shake');
     handset.animate([
       {transform:'rotate(0)'}, {transform:'rotate(-9deg) translateY(-3%)', offset:.18},

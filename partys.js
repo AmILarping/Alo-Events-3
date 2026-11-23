@@ -13,7 +13,7 @@
   "use strict";
   const skript = document.currentScript;
   const basis = skript && skript.src ? new URL(skript.src, location.href).origin : location.origin;
-  const istDatei = location.protocol === "file:";
+  const istDatei = location.protocol === "file:" || /\.github\.io$/.test(location.hostname);   // lokale Datei oder GitHub-Testlink: Vorschau-Daten
   const TICKETS = "https://www.tickettailor.com/all-tickets/aloevents/";
 
   const css = `
@@ -105,16 +105,17 @@
     document.head.appendChild(s);
   }
 
-  // Beispieldaten nur für die lokale Vorschau (Datei direkt im Browser geöffnet)
+  // Beispieltermine für Vorschau (lokale Datei / GitHub-Testlink). Online kommen die Partys aus dem Admin-Bereich.
   function beispiel() {
     const in_ = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+    const W = "https://static.wixstatic.com/media/";
     return {
       kommend: [
-        { titel: "Pasaporte Noche de Salsa", reihe: "Pasaporte", datum: in_(12), zeit: "22:00", stadt: "Hamburg", location: "Beispiel-Location", beschreibung: "Salsa, Bachata und Reggaetón auf zwei Floors. Mit Live-Percussion.", ticketUrl: TICKETS },
-        { titel: "ALÓ Afro & House", reihe: "ALÓ", datum: in_(26), zeit: "23:00", stadt: "Frankfurt am Main", location: "Beispiel-Club", beschreibung: "Afro House, Amapiano und Latin House bis in den Morgen.", ticketUrl: TICKETS, ausverkauft: true },
-        { titel: "ALÓ Summer Opening", reihe: "ALÓ", datum: in_(48), stadt: "Köln", ticketUrl: TICKETS },
+        { titel: "Pasaporte Latino", reihe: "Pasaporte", datum: in_(12), zeit: "22:00", stadt: "Hamburg", location: "Location wird bekannt gegeben", beschreibung: "Reggaetón, Salsa, Bachata und Dembow: eine Nacht, ganz Lateinamerika.", ticketUrl: TICKETS, bild: W + "558ab8_aa00b898990840318f61457752ca73c5~mv2.png/v1/fill/w_800,h_600,al_c,q_80,enc_auto/pasaporte-latino-flagge.jpg" },
+        { titel: "ALÓ – Latin, Afro & House", reihe: "ALÓ", datum: in_(26), zeit: "23:00", stadt: "Frankfurt am Main", location: "Location wird bekannt gegeben", beschreibung: "Latin, Afro und House bis in den Morgen, mit Live-Musik auf dem Floor.", ticketUrl: TICKETS, ausverkauft: true, bild: W + "558ab8_fb06185c5c504d64b99d53abee01ae9f~mv2.png/v1/fill/w_800,h_600,al_c,q_80,enc_auto/alo-partyreihe-saxofon-live.jpg" },
+        { titel: "ALÓ", reihe: "ALÓ", datum: in_(48), zeit: "23:00", stadt: "Köln", location: "Location wird bekannt gegeben", beschreibung: "Latin, Afro & House.", ticketUrl: TICKETS, bild: W + "558ab8_398194df54e84db2a1d27a96a9ea0621~mv2.png/v1/fill/w_800,h_600,al_c,q_80,enc_auto/latin-party-tropen-deko-nacht.jpg" },
       ],
-      vergangen: [{ titel: "Pasaporte XXL Halloween", reihe: "Pasaporte", datum: in_(-16), stadt: "Düsseldorf" }],
+      vergangen: [],
     };
   }
 
@@ -142,7 +143,7 @@
         el.innerHTML = `<div class="alo-pt-leer"><b>Stay tuned</b>${esc(leer)}</div>`;
       } else {
         el.innerHTML = liste.map(p => karte(p, vergangen)).join("") +
-          (d.demo ? `<p class="alo-pt-hinweis">Lokale Vorschau mit Beispieldaten. Online kommen die Partys aus dem Admin-Bereich.</p>` : "");
+          (d.demo ? `<p class="alo-pt-hinweis">Vorschau mit Beispielterminen. Die echten Partys pflegt ALÓ im Admin-Bereich.</p>` : "");
         if (!vergangen && el.dataset.schema !== "aus" && !d.demo) schema(liste);
       }
     } catch {

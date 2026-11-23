@@ -1,0 +1,120 @@
+/* ALÓ Events – gemeinsame Ebene "Telefonliste"
+ * Gilt für alle Seiten. Analoge Objekte (Papier, Schreibmaschine, rote Ziffern)
+ * statt digitaler Effekte. Farben und Schriften nur hier ändern.
+ */
+:root{
+  --paper:#F2EBDB;
+  --paper-2:#E9E1CE;
+  --ink:#141414;
+  --ink-2:#5d574c;
+  --rule:rgba(52,98,160,.22);
+  --margin-red:rgba(205,48,48,.6);
+  --dial-red:#C8261C;
+  --type:"Courier New",Courier,"Nimbus Mono PS",monospace;
+  --paper-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Kopfzeile: Menü mit Durchwahl wie auf der Telefonliste ---------- */
+.nav ul a{display:inline-flex;align-items:baseline;gap:.4em}
+.nav ul a .nn{font:400 .8em/1 var(--type);color:#ff6b5e}
+.nav ul a[aria-current="page"] .nn{color:inherit}
+
+/* ---------- Überzeilen: Schreibmaschine statt gesperrter Großbuchstaben ---------- */
+.kicker,.s-kicker{font-family:var(--type)!important;font-weight:400!important;letter-spacing:0!important;text-transform:none!important;font-size:15px!important}
+.m-line{font-family:var(--type)!important;font-weight:400!important;letter-spacing:0!important;text-transform:none!important;font-size:12.5px!important}
+
+/* ---------- Nummern: rote Ziffern wie auf der Wählscheibe, ohne Kreise ---------- */
+legend b{width:auto!important;height:auto!important;border-radius:0!important;background:none!important;color:#ff4a3d!important;font-size:1.9rem!important;min-width:1ch}
+.s-how li{padding-left:64px!important;border-radius:4px!important}
+.s-how li::before{width:auto!important;height:auto!important;border-radius:0!important;background:none!important;color:#ff4a3d!important;font-size:2.4rem!important;left:22px!important;top:16px!important}
+
+/* ---------- Papierkarte (Startseite, Kontakt-Telefon) ---------- */
+.paper{background-color:var(--paper);background-image:var(--paper-grain);color:var(--ink);border-radius:3px;
+  box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 2px 3px rgba(0,0,0,.35),0 22px 40px -12px rgba(0,0,0,.75)}
+
+/* ---------- Kontakt-Telefon unten rechts: die Liste als kleiner Zettel ---------- */
+.pp-hint{font-family:var(--type)!important;color:#cfc6b4!important}
+.pp-list{position:relative;gap:0!important;margin-top:6px!important;padding:4px 14px 4px 0!important;background-color:var(--paper);background-image:var(--paper-grain);
+  border-radius:3px;transform:rotate(-.8deg);box-shadow:0 2px 3px rgba(0,0,0,.4),0 16px 26px -12px rgba(0,0,0,.8)}
+.pp-list::before{content:"";position:absolute;top:0;bottom:0;left:46px;width:1.5px;background:var(--margin-red)}
+.pp-list li+li a{border-top:1px solid var(--rule)}
+.pp-list a{display:grid!important;grid-template-columns:46px 1fr auto;align-items:baseline!important;gap:0 12px!important;min-height:44px!important;padding:12px 6px 8px 0!important;
+  border-radius:0!important;background:none!important;box-shadow:none!important;color:var(--ink)!important;font:700 16px/1.1 var(--type)!important}
+.pp-list a b{width:auto!important;height:auto!important;background:none!important;border-radius:0!important;justify-self:center;color:var(--dial-red)!important;font:400 23px/1 "Anton",Impact,sans-serif!important}
+.pp-list a small{font:400 12px/1 var(--type)!important;color:#7a7264!important}
+.pp-list a:hover,.pp-list a:focus-visible,.pp-list a.is-dialing{background:linear-gradient(transparent 36%,rgba(214,245,20,.85) 36%,rgba(214,245,20,.85) 90%,transparent 90%)!important;box-shadow:none!important}
+.pp-title{color:#fff!important}
+
+/* ---------- Termine: Party-Karten wie Eintrittskarten ---------- */
+body .alo-pt{gap:clamp(18px,2.4vw,30px)}
+body .alo-pt-card{background-color:var(--paper);background-image:var(--paper-grain);border:0;border-radius:4px;color:var(--ink);overflow:visible;
+  box-shadow:0 2px 3px rgba(0,0,0,.35),0 24px 40px -16px rgba(0,0,0,.85)}
+body .alo-pt-card:nth-child(3n+1){transform:rotate(-.6deg)}
+body .alo-pt-card:nth-child(3n+2){transform:rotate(.4deg)}
+body .alo-pt-card:nth-child(3n){transform:rotate(-.2deg)}
+@media (hover:hover){body .alo-pt-card:hover{transform:translateY(-4px) rotate(0);border-color:transparent;box-shadow:0 2px 3px rgba(0,0,0,.35),0 30px 50px -16px rgba(0,0,0,.9)}}
+body .alo-pt-img{aspect-ratio:4/3;margin:10px 10px 0;border-radius:2px;background:#1b1b1b}
+body .alo-pt-img img{filter:saturate(1.1) contrast(1.05)}
+body .alo-pt-img .alo-pt-ph{text-shadow:none}
+body .alo-pt-date{left:-8px;top:-10px;background:var(--paper);color:var(--ink);border:2px solid var(--ink);border-radius:2px;transform:rotate(-5deg);backdrop-filter:none;box-shadow:0 3px 8px rgba(0,0,0,.35)}
+body .alo-pt-date b{color:var(--dial-red)}
+body .alo-pt-sold{border-radius:2px;transform:rotate(5deg);letter-spacing:.06em;box-shadow:0 3px 8px rgba(0,0,0,.35)}
+body .alo-pt-body{position:relative;margin-top:14px;padding:18px 20px 20px;border-top:2px dashed rgba(20,20,20,.28)}
+body .alo-pt-body::before,body .alo-pt-body::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:#000}
+body .alo-pt-body::before{left:-10px}body .alo-pt-body::after{right:-10px}
+body .alo-pt-reihe{font:400 13px/1 var(--type);letter-spacing:0;text-transform:none;color:var(--dial-red)}
+body .alo-pt-card[data-r="ALÓ"] .alo-pt-reihe{color:var(--ink-2)}
+body .alo-pt-body h3{color:var(--ink)}
+body .alo-pt-meta{font:400 13.5px/1.4 var(--type);color:var(--ink-2)}
+body .alo-pt-text{color:#3a362f}
+body .alo-pt-cta a{background:var(--ink);color:#fff;border-radius:4px}
+body .alo-pt-cta a:hover{background:var(--dial-red)}
+body .alo-pt-leer{border-color:#3a3a3a;font-family:var(--type)}
+body .alo-pt-hinweis{font-family:var(--type);color:rgba(255,255,255,.45)}
+
+/* ---------- Unterseiten-Kopf (Partys, Termine) ---------- */
+.pg-head{padding:clamp(120px,16vh,170px) 0 clamp(26px,4vw,44px)}
+.pg-head h1{margin:0;font:400 clamp(3.4rem,9vw,7.5rem)/.9 "Anton",Impact,sans-serif;text-transform:uppercase;letter-spacing:.005em;color:#fff}
+.pg-head h1 span{color:var(--lime,#E0FF22)}
+.pg-head p{margin:16px 0 0;max-width:46ch;font:400 17px/1.5 var(--type);color:#cfc6b4}
+
+/* ---------- Fokus sichtbar halten ---------- */
+:focus-visible{outline:2px solid var(--lime,#E0FF22);outline-offset:3px}
+
+@media (prefers-reduced-motion:reduce){
+  body .alo-pt-card,.pp-list{transform:none!important}
+}
+
+/* ---------- Seitentitel auf Unterseiten (Termine, Partys) ---------- */
+.pg-title{margin:0;font:400 clamp(2.8rem,5.6vw,5.4rem)/.92 var(--display,"Anton",Impact,sans-serif);text-transform:uppercase}
+.pg-title span{color:var(--lime,#E0FF22)}
+.pg-lead{margin:14px 0 0;max-width:52ch;font:400 16px/1.5 var(--type);color:#cfc6b4}
+
+/* ---------- Partys: zwei Reihen ---------- */
+.reihe{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(30px,6vw,90px);align-items:center;
+  max-width:1240px;margin:0 auto;padding:clamp(40px,7vw,90px) clamp(16px,4vw,56px)}
+.reihe.rev .reihe-pic{order:2}
+.reihe-pic{position:relative;margin:0;transform:rotate(-1.2deg)}
+.reihe.rev .reihe-pic{transform:rotate(1deg)}
+.reihe-pic img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:3px;background:#151515;box-shadow:0 2px 3px rgba(0,0,0,.4),0 30px 60px -20px rgba(0,0,0,.9)}
+.reihe-pic figcaption{position:absolute;left:-10px;bottom:22px;max-width:80%;padding:9px 14px 8px;background-color:var(--paper);background-image:var(--paper-grain);color:var(--ink);
+  font:400 13px/1.35 var(--type);transform:rotate(-2deg);box-shadow:0 2px 3px rgba(0,0,0,.35),0 12px 20px -10px rgba(0,0,0,.7)}
+.reihe.rev .reihe-pic figcaption{left:auto;right:-10px;transform:rotate(2deg)}
+.reihe-name{margin:0;font:400 clamp(4.4rem,10vw,8.4rem)/.86 "Anton",Impact,sans-serif;color:var(--lime,#E0FF22);letter-spacing:.005em}
+.reihe-name img{display:block;width:min(100%,520px);height:auto}
+.reihe-claim{margin:14px 0 26px;font:600 clamp(1.05rem,1.4vw,1.25rem)/1.4 "Sora",sans-serif;color:#fff;max-width:36ch}
+.facts{margin:0 0 28px;padding:6px 18px 6px 0;position:relative;background-color:var(--paper);background-image:var(--paper-grain);color:var(--ink);border-radius:3px;
+  transform:rotate(-.5deg);box-shadow:0 2px 3px rgba(0,0,0,.35),0 22px 40px -14px rgba(0,0,0,.8)}
+.facts::before{content:"";position:absolute;top:0;bottom:0;left:112px;width:1.5px;background:var(--margin-red)}
+.facts div{display:grid;grid-template-columns:112px 1fr;gap:0 16px;align-items:baseline;padding:12px 0 9px}
+.facts div+div{border-top:1px solid var(--rule)}
+.facts dt{padding-left:16px;font:400 12.5px/1.3 var(--type);color:var(--ink-2)}
+.facts dd{margin:0;font:700 15.5px/1.35 var(--type)}
+.facts dd b{color:var(--dial-red);font-weight:700}
+.reihe .ctas{display:flex;flex-wrap:wrap;gap:12px}
+@media (max-width:860px){
+  .reihe{grid-template-columns:1fr}
+  .reihe.rev .reihe-pic{order:0}
+  .reihe-pic{max-width:440px}
+  .reihe-pic img{aspect-ratio:4/4.4}
+}
