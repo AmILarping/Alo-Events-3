@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Event anfragen &amp; Kontakt | ALÓ Events</title>
+<meta name="description" content="Event anfragen bei ALÓ Events: Firmenfeier, Hochzeit, Live-Act oder Pasaporte in deiner Stadt. Erzähl uns kurz, was du vorhast – wir rufen dich zurück.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="ALÓ? – Event anfragen bei ALÓ Events">
+<meta property="og:description" content="Erzähl uns, was du vorhast. Wir rufen zurück.">
+<meta name="theme-color" content="#000000">
+<script>(function(d){var c=d.classList,rm=false,seen=false,force=/[?&]intro=1/.test(location.search);
+try{rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+try{seen=sessionStorage.getItem((window.ALO_KEY||'alo-intro-gesehen'))==='1'}catch(e){}
+if(!rm)c.add('js-in');
+if(force||(!rm&&!seen))c.add('op-on');
+setTimeout(function(){if(!window.__aloOp)c.remove('op-on');if(!window.__aloPage)c.remove('js-in')},2600)})(document.documentElement);</script>
+<link rel="preconnect" href="https://static.wixstatic.com">
+<style>/* Schriften lokal (DSGVO: keine Verbindung zu Google) */
+@font-face{font-family:"Anton";font-weight:400;font-style:normal;font-display:swap;src:url("fonts/anton-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Sora";font-weight:400;font-style:normal;font-display:swap;src:url("fonts/sora-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Sora";font-weight:600;font-style:normal;font-display:swap;src:url("fonts/sora-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Sora";font-weight:700;font-style:normal;font-display:swap;src:url("fonts/sora-latin-700-normal.woff2") format("woff2")}</style>
+<style>
+/* ---------- Basis (alle Entwürfe) ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;min-height:100vh;-webkit-font-smoothing:antialiased}
+img,svg,video,canvas{display:block;max-width:100%}
+a{color:inherit}
+.shape-defs{position:absolute;width:0;height:0;overflow:hidden}
+.skip{position:absolute;left:-9999px;top:0;z-index:300;padding:12px 16px;background:#fff;color:#111;font:600 15px/1 system-ui,sans-serif}
+.skip:focus{left:12px;top:12px}
+:focus-visible{outline:3px solid var(--focus,#E0FF22);outline-offset:3px}
+.pic{display:block;width:100%;height:100%;object-fit:cover;background:#151515}
+
+/* ALÓ-Punkt (Logo wie auf alo-events.com: Lime-Kreis, schwarze Schrift) */
+.alo-dot{display:inline-grid;place-items:center;aspect-ratio:1/1;border-radius:50%;background:#E0FF22;color:#000;
+  font-family:"Anton",Impact,sans-serif;font-weight:400;line-height:1;text-decoration:none}
+
+/* ---------- Intro-Overlay ---------- */
+.intro{display:none}
+html.op-on .intro{display:block;position:fixed;inset:0;z-index:150;background:#000;touch-action:none;overflow:hidden;cursor:pointer}
+html.js-in [data-in]{opacity:0}
+
+/* ---------- Präsentations-Leiste (nicht Teil des Designs) ---------- */
+.demo{position:fixed;right:12px;bottom:12px;z-index:120;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;
+  background:rgba(30,30,30,.9);box-shadow:0 2px 10px rgba(0,0,0,.35);font:600 12px/1 system-ui,-apple-system,sans-serif}
+.demo span{color:#bdbdbd;padding:0 6px 0 8px;font-weight:500}
+.demo a,.demo button{color:#f2f2f2;padding:8px 10px;border-radius:999px;text-decoration:none;background:none;border:0;font:inherit;cursor:pointer}
+.demo a[aria-current="page"]{background:#E0FF22;color:#000}
+.demo :focus-visible{outline:2px solid #f2f2f2;outline-offset:1px}
+@media (max-width:520px){.demo span{display:none}.demo{right:8px;bottom:8px}}
+
+@media (prefers-reduced-motion:reduce){
+  html.js-in [data-in]{opacity:1}
+  *{scroll-behavior:auto!important}
+}
+
+/* ---------- Neon-Grundlagen (Startseite, alle Varianten) ---------- */
+:root{--lime:#E0FF22;--red:#FF2E4D;--pink:#ED1566;--cyan:#1EF2FF;
+  --display:"Anton",Impact,sans-serif;--text:"Sora",system-ui,sans-serif}
+body{background:#000;color:#fff;font-family:var(--text);font-size:1rem;line-height:1.6}
+
+.top{position:relative;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px clamp(16px,4vw,56px)}
+.top .alo-dot{width:54px;font-size:20px}
+.nav{display:flex;align-items:center;gap:clamp(18px,2.8vw,44px)}
+.nav ul{display:flex;gap:clamp(16px,2.4vw,34px);list-style:none;margin:0;padding:0}
+.nav a{text-decoration:none;font-weight:600;font-size:.95rem}
+.nav ul a:hover{color:var(--lime)}
+.nav-cta{background:var(--lime);color:#000;padding:10px 20px;border-radius:6px;font-weight:700!important}
+.menu-btn{display:none}
+
+/* Neonschild = H1. Glas-Röhre (glow) + heller Kern (core) */
+.sign{margin:0;font-weight:400}
+/* Anton ragt mit dem Akzent auf dem Ó ca. 0,19 em über die Zeile – plus Leuchten: deshalb 0,3 em Luft nach oben */
+.sign-art{display:flex;align-items:flex-end;width:max-content;max-width:100%;line-height:1;padding-top:calc(var(--sign) * .3);margin-left:-.035em;user-select:none}
+.tube{position:relative;display:block;color:transparent;font-family:var(--display);white-space:nowrap}
+.tube::after{content:attr(data-t);position:absolute;left:0;bottom:0;pointer-events:none}
+.t-alo{font-size:var(--sign)}
+.t-alo .glow{-webkit-text-stroke:.03em var(--lime);filter:drop-shadow(0 0 .02em var(--lime)) drop-shadow(0 0 .1em rgba(224,255,34,.8)) drop-shadow(0 0 .26em rgba(224,255,34,.42))}
+.t-alo::after{-webkit-text-stroke:.008em #F7FFD6}
+.t-ev{font-size:calc(var(--sign) * .34);rotate:-7deg;margin:0 0 .34em .14em}
+.t-ev .glow{-webkit-text-stroke:.05em var(--pink);filter:drop-shadow(0 0 .04em var(--pink)) drop-shadow(0 0 .2em rgba(237,21,102,.85))}
+.t-ev::after{-webkit-text-stroke:.014em #FFD4E4}
+.sign-art.off .glow{-webkit-text-stroke-color:#2D3311;filter:none}
+.sign-art.off .t-ev .glow{-webkit-text-stroke-color:#3A1020}
+.sign-art.off .tube::after{opacity:0}
+.sign .sub{display:block;font:600 clamp(1.02rem,1.3vw,1.25rem)/1.35 var(--text);margin-top:clamp(10px,1.6vh,18px)}
+
+.ctas{display:flex;flex-wrap:wrap;gap:12px 14px;margin-top:clamp(18px,3vh,30px)}
+.btn{display:inline-flex;align-items:center;min-height:52px;padding:0 24px;border-radius:6px;font-weight:700;text-decoration:none;font-size:1rem}
+.btn-main{background:var(--lime);color:#000}
+.btn-main:hover{background:#efff7a}
+.btn-alt{box-shadow:inset 0 0 0 2px #fff;color:#fff}
+.btn-alt:hover{box-shadow:inset 0 0 0 2px var(--lime);color:var(--lime)}
+
+.series-h{margin:0;font:600 .9rem/1.2 var(--text);color:#cfcfcf}
+
+/* ---------- Partyreihen-Streifen ---------- */
+.tile{position:relative;display:block;min-width:0;text-decoration:none;color:#fff;--c:var(--lime)}
+.tile-lime{--c:var(--lime)}.tile-red{--c:var(--red)}.tile-cyan{--c:var(--cyan)}
+.slice{position:relative;display:block;height:100%;transform:skewX(var(--sk,-8deg));overflow:hidden;border:2px solid var(--c);border-radius:4px;
+  box-shadow:0 0 10px var(--c),0 0 34px -6px var(--c);transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s}
+.slice .pic{position:absolute;inset:0;width:100%;height:100%;transform:skewX(calc(var(--sk,-8deg) * -1)) scale(1.3);transition:filter .45s}
+.tile-red .slice::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#FF1F3D,#FF3A55 55%,#C0122E);mix-blend-mode:multiply;opacity:.5;pointer-events:none}
+.slice::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(0,0,0,.88),rgba(0,0,0,.45) 55%,rgba(0,0,0,.25));opacity:0;transition:opacity .35s}
+.label{position:absolute;inset:0;z-index:2;display:grid;place-items:center;transform:skewX(calc(var(--sk,-8deg) * -1));opacity:0;translate:0 16px;transition:opacity .3s,translate .45s cubic-bezier(.2,.8,.2,1)}
+.label .v{position:relative;display:block;color:transparent;font-family:var(--display);font-size:var(--lab,clamp(2.6rem,4.2vw,4.6rem));line-height:1;white-space:nowrap}
+.label.vert .v{writing-mode:vertical-rl;rotate:180deg}
+.label.short .v{font-size:calc(var(--lab,clamp(2.6rem,4.2vw,4.6rem)) * 1.55)}
+.label .glow{-webkit-text-stroke:.03em var(--c);filter:drop-shadow(0 0 .03em var(--c)) drop-shadow(0 0 .16em var(--c))}
+.label .v::after{content:attr(data-t);position:absolute;left:0;top:0;-webkit-text-stroke:.01em #fff}
+.tag{position:absolute;left:0;right:0;bottom:16px;z-index:2;transform:skewX(calc(var(--sk,-8deg) * -1));text-align:center;font-weight:700;font-size:.88rem;opacity:0;transition:opacity .3s .05s}
+a.tile .tag{text-decoration:underline;text-decoration-color:var(--c);text-decoration-thickness:2px;text-underline-offset:5px}
+.tile:hover .slice,.tile:focus-visible .slice{transform:skewX(var(--sk,-8deg)) translateY(-18px);box-shadow:0 0 14px var(--c),0 0 70px -2px var(--c)}
+.tile:hover .slice::after,.tile:focus-visible .slice::after{opacity:1}
+.tile:hover .label,.tile:focus-visible .label{opacity:1;translate:0 0}
+.tile:hover .tag,.tile:focus-visible .tag{opacity:1}
+.tile:focus-visible{outline:none}
+.tile:focus-visible .slice{outline:3px solid #fff;outline-offset:4px}
+@media (hover:none){
+  .slice::after{opacity:.8}
+  .label,.tag{opacity:1;translate:0 0}
+}
+@media (prefers-reduced-motion:reduce){
+  .slice,.label{transition:none}
+}
+
+@media (max-width:980px){
+  .menu-btn{display:inline-flex;align-items:center;font:700 1rem var(--text);background:none;border:2px solid #fff;color:#fff;padding:8px 16px;border-radius:6px;cursor:pointer}
+  .nav{display:none;position:absolute;top:100%;left:12px;right:12px;flex-direction:column;align-items:flex-start;gap:18px;padding:22px;background:#0b0b0b;border:2px solid var(--lime);border-radius:10px}
+  .nav ul{flex-direction:column;gap:14px}
+  .nav a{font-size:1.1rem}
+  .nav-open .nav{display:flex}
+}
+
+/* Farbvarianten der Neonröhre (Unterseiten) */
+.tube.pink .glow{-webkit-text-stroke:.03em var(--pink);filter:drop-shadow(0 0 .02em var(--pink)) drop-shadow(0 0 .1em rgba(237,21,102,.85)) drop-shadow(0 0 .26em rgba(237,21,102,.45))}
+.tube.pink::after{-webkit-text-stroke:.008em #FFD9E6}
+.tube.red .glow{-webkit-text-stroke:.03em var(--phone,#E3261B);filter:drop-shadow(0 0 .02em #FF3B2E) drop-shadow(0 0 .1em rgba(255,59,46,.85)) drop-shadow(0 0 .26em rgba(255,59,46,.45))}
+.tube.red::after{-webkit-text-stroke:.008em #FFE0DC}
+
+/* ---------- Seitenweit: Telefon, Spiralkabel, Footer ---------- */
+:root{--phone:#E3261B}
+.demo{right:auto;left:12px}
+@media (max-width:560px){.demo{left:8px;right:84px;bottom:14px;overflow-x:auto;scrollbar-width:none}.demo a,.demo button{padding:8px 8px;white-space:nowrap}}
+.nav a[aria-current="page"]{color:var(--lime,#E0FF22)}
+
+/* Spiralkabel als Trenner */
+.cord{display:block;width:100%;height:26px;background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 13.0 24%22 width=%2213.0%22 height=%2224%22%3E%3Cpath d=%22M-26.00 3.45 L-27.07 3.51 L-28.12 3.70 L-29.13 4.00 L-30.09 4.42 L-30.97 4.94 L-31.76 5.57 L-32.45 6.29 L-33.02 7.10 L-33.47 7.97 L-33.77 8.90 L-33.92 9.88 L-33.93 10.88 L-33.77 11.91 L-33.46 12.93 L-32.99 13.94 L-32.36 14.93 L-31.59 15.87 L-30.68 16.75 L-29.63 17.57 L-28.46 18.30 L-27.19 18.95 L-25.83 19.50 L-24.39 19.94 L-22.89 20.26 L-21.35 20.46 L-19.78 20.55 L-18.22 20.51 L-16.66 20.35 L-15.15 20.07 L-13.68 19.67 L-12.29 19.16 L-10.98 18.55 L-9.78 17.84 L-8.69 17.05 L-7.72 16.19 L-6.90 15.27 L-6.22 14.30 L-5.69 13.30 L-5.32 12.28 L-5.11 11.25 L-5.06 10.24 L-5.16 9.25 L-5.41 8.30 L-5.80 7.40 L-6.33 6.57 L-6.98 5.82 L-7.73 5.16 L-8.59 4.59 L-9.52 4.14 L-10.51 3.79 L-11.55 3.56 L-12.61 3.46 L-13.69 3.48 L-14.74 3.62 L-15.77 3.88 L-16.75 4.25 L-17.66 4.74 L-18.49 5.33 L-19.22 6.02 L-19.83 6.80 L-20.32 7.65 L-20.68 8.56 L-20.89 9.52 L-20.94 10.52 L-20.85 11.54 L-20.59 12.56 L-20.18 13.58 L-19.61 14.58 L-18.89 15.53 L-18.02 16.44 L-17.02 17.28 L-15.90 18.05 L-14.66 18.73 L-13.33 19.31 L-11.91 19.79 L-10.43 20.16 L-8.90 20.40 L-7.35 20.53 L-5.78 20.54 L-4.22 20.42 L-2.69 20.18 L-1.20 19.82 L0.22 19.35 L1.56 18.78 L2.80 18.11 L3.94 17.35 L4.95 16.51 L5.82 15.61 L6.55 14.65 L7.14 13.66 L7.56 12.65 L7.83 11.62 L7.94 10.60 L7.90 9.60 L7.70 8.64 L7.36 7.72 L6.88 6.86 L6.27 6.08 L5.55 5.39 L4.73 4.79 L3.83 4.29 L2.85 3.90 L1.83 3.63 L0.77 3.48 L-0.30 3.45 L-1.37 3.55 L-2.41 3.77 L-3.40 4.10 L-4.34 4.55 L-5.20 5.11 L-5.97 5.77 L-6.63 6.51 L-7.16 7.33 L-7.57 8.23 L-7.83 9.17 L-7.94 10.16 L-7.90 11.17 L-7.70 12.20 L-7.34 13.22 L-6.83 14.22 L-6.16 15.19 L-5.35 16.12 L-4.40 16.99 L-3.32 17.78 L-2.12 18.50 L-0.82 19.11 L0.57 19.63 L2.03 20.04 L3.54 20.33 L5.09 20.50 L6.66 20.55 L8.22 20.48 L9.76 20.28 L11.27 19.97 L12.71 19.54 L14.09 19.00 L15.37 18.36 L16.54 17.63 L17.60 16.82 L18.52 15.94 L19.31 15.00 L19.94 14.02 L20.43 13.01 L20.75 11.99 L20.92 10.97 L20.93 9.96 L20.79 8.98 L20.50 8.04 L20.06 7.16 L19.50 6.35 L18.82 5.63 L18.04 4.99 L17.16 4.45 L16.21 4.03 L15.20 3.71 L14.15 3.52 L13.09 3.45 L12.02 3.50 L10.96 3.68 L9.95 3.97 L8.99 4.38 L8.10 4.90 L7.30 5.52 L6.60 6.23 L6.02 7.03 L5.56 7.90 L5.25 8.83 L5.08 9.80 L5.07 10.80 L5.21 11.83 L5.51 12.85 L5.97 13.86 L6.58 14.85 L7.34 15.79 L8.25 16.68 L9.28 17.51 L10.44 18.25 L11.70 18.90 L13.06 19.46 L14.50 19.90 L15.99 20.24 L17.53 20.45 L19.09 20.55 L20.66 20.52 L22.21 20.36 L23.73 20.09 L25.20 19.70 L26.60 19.20 L27.92 18.60 L29.13 17.90 L30.23 17.12 L31.21 16.26 L32.04 15.34 L32.73 14.38 L33.27 13.38 L33.65 12.36 L33.88 11.33 L33.94 10.32 L33.86 9.33 L33.62 8.37 L33.24 7.47 L32.72 6.64 L32.08 5.88 L31.33 5.21 L30.48 4.63 L29.56 4.17 L28.57 3.81 L27.53 3.58 L26.47 3.46 L25.40 3.47 L24.34 3.60 L23.31 3.85 L22.33 4.22 L21.41 4.70 L20.57 5.28 L19.84 5.97 L19.21 6.73 L18.71 7.58 L18.35 8.49 L18.12 9.44 L18.06 10.44 L18.14 11.46 L18.38 12.48 L18.79 13.50 L19.34 14.50 L20.05 15.46 L20.91 16.37 L21.89 17.22 L23.01 17.99 L24.24 18.68 L25.56 19.27 L26.97 19.76 L28.45 20.13 L29.97 20.39 L31.53 20.53 L33.10 20.54 L34.66 20.43 L36.19 20.20 L37.68 19.86 L39.11 19.40 L40.45 18.83 L41.71 18.16 L42.85 17.41 L43.87 16.58 L44.76 15.68 L45.50 14.73 L46.09 13.74 L46.53 12.73 L46.82 11.70 L46.94 10.68 L46.91 9.68 L46.72 8.71 L46.39 7.79 L45.92 6.93 L45.32 6.14 L44.61 5.44 L43.80 4.83 L42.90 4.32 L41.93 3.93 L40.91 3.65 L39.86 3.49%22 fill=%22none%22 stroke=%22%23E3261B%22 stroke-width=%221.9%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") repeat-x 0 50%/auto 26px;filter:drop-shadow(0 0 5px rgba(227,38,27,.55))}
+
+/* Telefon-Button */
+.phone{position:fixed;right:18px;bottom:18px;z-index:130;font-family:"Sora",system-ui,sans-serif}
+.phone-btn{position:relative;display:grid;place-items:center;width:66px;height:66px;border-radius:50%;border:0;cursor:pointer;
+  background:var(--phone);color:#fff;box-shadow:0 0 0 3px #000,0 0 18px rgba(227,38,27,.75),0 8px 22px rgba(0,0,0,.5);transition:transform .25s}
+.phone-btn:hover{transform:scale(1.06)}
+.phone-btn:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.phone-btn .handset{width:40px;height:auto;transform:rotate(-12deg);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.phone.is-open .phone-btn .handset{transform:translateY(-7px) rotate(-34deg)}
+.phone-btn-txt{position:absolute;right:76px;top:50%;translate:0 -50%;white-space:nowrap;font:400 1.35rem/1 "Anton",Impact,sans-serif;color:#fff;
+  background:#000;padding:7px 12px 6px;border-radius:999px;box-shadow:inset 0 0 0 2px var(--phone);pointer-events:none}
+.ring-wave{position:absolute;inset:0;border-radius:50%;border:3px solid var(--phone);opacity:0;pointer-events:none}
+.phone.ringing .phone-btn .handset{animation:alo-ring .7s ease-in-out 2}
+.phone.ringing .ring-wave{animation:alo-wave 1.2s ease-out 1}
+.phone.ringing .ring-wave + .ring-wave{animation-delay:.25s}
+@keyframes alo-ring{0%,100%{transform:rotate(-12deg)}10%,30%,50%,70%{transform:rotate(-24deg)}20%,40%,60%,80%{transform:rotate(0deg)}}
+@keyframes alo-wave{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(2.1)}}
+
+/* Panel mit Wählscheibe */
+.phone-panel{position:absolute;right:0;bottom:84px;width:min(380px,calc(100vw - 36px));padding:18px 18px 16px;border-radius:18px;background:#0c0c0c;color:#fff;
+  box-shadow:0 0 0 2px var(--phone),0 0 40px -6px rgba(227,38,27,.7),0 24px 60px rgba(0,0,0,.6)}
+.phone-panel[hidden]{display:none}
+.pp-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.pp-title{margin:0;font:400 2rem/1 "Anton",Impact,sans-serif;color:var(--lime,#E0FF22)}
+.pp-title span{display:block;margin-top:6px;font:600 .95rem/1.35 "Sora",sans-serif;color:#fff}
+.pp-close{flex:none;width:40px;height:40px;border-radius:50%;border:0;background:#222;color:#fff;font:700 1.4rem/1 system-ui,sans-serif;cursor:pointer}
+.pp-close:hover{background:#333}
+.pp-dial{width:min(250px,64vw);margin:12px auto 6px}
+.dial{display:block;width:100%;height:auto;touch-action:none;user-select:none}
+.dial .wheel{will-change:transform}
+.dial-hit{fill:transparent;cursor:grab}
+.dial-hit:active{cursor:grabbing}
+.dial-num{font:400 22px "Anton",Impact,sans-serif;fill:#9a8f80}
+.dial-num.on{fill:var(--phone)}
+.dial-logo{font:400 40px "Anton",Impact,sans-serif;fill:#000}
+.pp-hint{margin:2px 0 8px;font-size:.85rem;color:#bdbdbd;text-align:center}
+.pp-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.pp-list a{display:flex;align-items:center;gap:12px;min-height:46px;padding:6px 12px 6px 6px;border-radius:10px;background:#181818;text-decoration:none;font-weight:700;color:#fff}
+.pp-list a b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#F4EEE4;color:var(--phone);font:400 1.15rem/1 "Anton",Impact,sans-serif}
+.pp-list a small{margin-left:auto;font-weight:500;font-size:.78rem;color:#9d9d9d}
+.pp-list a:hover,.pp-list a:focus-visible,.pp-list a.is-dialing{background:#262626;box-shadow:inset 0 0 0 2px var(--lime,#E0FF22)}
+.pp-list a:focus-visible{outline:none}
+.pp-note{margin:8px 0 0;font-size:.85rem;color:#ffd3cf}
+.pp-foot{display:flex;justify-content:flex-end;margin-top:10px}
+.pp-sound{border:0;background:none;color:#bdbdbd;font:600 .82rem "Sora",sans-serif;cursor:pointer;padding:6px 4px;text-decoration:underline;text-underline-offset:4px}
+.pp-sound[aria-pressed="true"]{color:var(--lime,#E0FF22)}
+@media (max-width:560px){
+  .phone{right:12px;bottom:12px}
+  .phone-btn{width:60px;height:60px}
+  .phone-btn-txt{display:none}
+  .phone-panel{position:fixed;left:8px;right:8px;bottom:84px;width:auto;max-height:calc(100svh - 100px);overflow:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  .phone-btn,.phone-btn .handset{transition:none}
+  .phone.ringing .phone-btn .handset,.phone.ringing .ring-wave{animation:none}
+}
+
+/* Footer */
+.foot{position:relative;background:#000;color:#cfcfcf;padding:0 0 calc(110px + env(safe-area-inset-bottom));font-family:"Sora",system-ui,sans-serif}
+.foot .cord{margin-bottom:34px}
+.foot-in{display:grid;grid-template-columns:auto 1fr auto;gap:18px 40px;align-items:center;padding:0 clamp(16px,4vw,56px)}
+.foot .alo-dot{width:54px;font-size:20px;color:#000}
+.foot-claim{margin:0;font:400 1.5rem/1.1 "Anton",Impact,sans-serif;color:#fff}
+.foot-claim span{color:var(--lime,#E0FF22)}
+.foot ul{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;margin:0;padding:0}
+.foot a{color:#e6e6e6;text-decoration:none;font-size:.92rem}
+.foot a:hover{color:var(--lime,#E0FF22)}
+.foot-legal{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;padding-top:18px;border-top:1px solid #222;font-size:.85rem}
+.foot-legal p{margin:0}
+@media (max-width:760px){.foot-in{grid-template-columns:1fr}}
+
+/* ================= Kontakt: ALÓ? ================= */
+.wrap{padding:0 clamp(16px,4vw,56px)}
+.k-hero{position:relative;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:24px clamp(24px,4vw,64px);align-items:center;
+  min-height:min(80svh,780px);padding-bottom:clamp(20px,4vh,40px);--sign:clamp(7rem,15vw,16rem)}
+.k-hero .sign-art .tube + .tube{margin-left:.04em}
+.k-hero .sign .sub{font-size:clamp(1.1rem,1.6vw,1.45rem)}
+.k-intro{max-width:46ch;margin:1rem 0 0;color:#e6e6e6}
+.direct{margin:clamp(20px,3.5vh,34px) 0 0}
+.direct h2{margin:0 0 8px;font:700 .95rem/1.2 var(--text);color:#bdbdbd}
+.direct ul{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0;padding:0}
+.direct li > *{display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:0 16px;border-radius:999px;background:#141414;box-shadow:inset 0 0 0 2px #2b2b2b;text-decoration:none;font-weight:600;font-size:.95rem}
+.direct a:hover{box-shadow:inset 0 0 0 2px var(--lime)}
+.direct .soon{color:#8f8f8f}
+.direct b{color:var(--lime);font-weight:700}
+.k-photo{position:relative;margin:0;justify-self:end;width:min(100%,460px);aspect-ratio:3/4;border-radius:260px 260px 16px 16px;overflow:hidden;
+  box-shadow:0 0 0 2px var(--phone),0 0 50px -6px rgba(227,38,27,.65)}
+.k-photo .pic{object-position:40% 45%}
+.k-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent 40%)}
+.k-photo figcaption{position:absolute;left:0;right:0;bottom:18px;z-index:2;text-align:center;font:400 1.6rem/1 var(--display);text-transform:uppercase}
+.k-photo figcaption span{color:var(--lime)}
+
+/* Anruf-Formular */
+.call{display:grid;grid-template-columns:minmax(240px,.7fr) minmax(0,1.3fr);gap:32px clamp(24px,5vw,80px);align-items:start;padding:clamp(40px,8vh,90px) 0 clamp(50px,9vh,100px)}
+.call h2{margin:0 0 10px;font:400 clamp(2.2rem,4.4vw,3.8rem)/1 var(--display);text-transform:uppercase}
+.call h2 span{color:var(--phone)}
+.line{position:sticky;top:24px;padding:22px;border-radius:16px;background:#0c0c0c;box-shadow:inset 0 0 0 2px #232323}
+.line .handset-big{display:block;width:150px;height:auto;margin:6px 0 14px;color:var(--phone);transform:rotate(-8deg);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.line.live .handset-big{transform:translateY(-8px) rotate(-26deg)}
+.line.done .handset-big{transform:rotate(0)}
+.line-state{margin:0;font-weight:700}
+.line-state .dot{display:inline-block;width:10px;height:10px;margin-right:8px;border-radius:50%;background:#555;vertical-align:1px}
+.line.live .line-state .dot{background:var(--lime);box-shadow:0 0 10px var(--lime)}
+.line.done .line-state .dot{background:var(--phone)}
+.line-time{margin:4px 0 0;font:400 2.4rem/1 var(--display);font-variant-numeric:tabular-nums;color:#fff}
+.line-note{margin:14px 0 0;font-size:.9rem;color:#bdbdbd}
+
+form{display:grid;gap:26px}
+fieldset{margin:0;padding:0;border:0;min-width:0}
+legend{display:flex;align-items:center;gap:12px;padding:0;margin:0 0 12px;font:400 1.6rem/1 var(--display);text-transform:uppercase}
+legend b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#F4EEE4;color:var(--phone);font:400 1.1rem/1 var(--display)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.f label{display:block;margin-bottom:6px;font-weight:600;font-size:.92rem}
+.f label i{font-style:normal;color:var(--lime)}
+input[type=text],input[type=email],input[type=tel],input[type=date],select,textarea{width:100%;min-height:50px;padding:12px 14px;border-radius:10px;border:2px solid #2e2e2e;background:#111;color:#fff;font:400 1rem/1.4 var(--text);color-scheme:dark}
+textarea{min-height:140px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(224,255,34,.2)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{display:inline-flex;align-items:center;min-height:46px;padding:0 18px;border-radius:999px;background:#141414;box-shadow:inset 0 0 0 2px #2e2e2e;font-weight:600;font-size:.95rem;cursor:pointer}
+.chips input:checked + label{background:var(--lime);color:#000;box-shadow:none}
+.chips input:focus-visible + label{outline:3px solid #fff;outline-offset:2px}
+.consent{display:flex;gap:12px;align-items:flex-start;font-size:.92rem;color:#d6d6d6}
+.consent input{width:22px;height:22px;margin:1px 0 0;accent-color:var(--lime)}
+.consent a{color:#fff}
+.send{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px}
+.btn-hang{display:inline-flex;align-items:center;gap:12px;min-height:56px;padding:0 26px;border:0;border-radius:999px;background:var(--phone);color:#fff;font:700 1.06rem var(--text);cursor:pointer;
+  box-shadow:0 0 22px rgba(227,38,27,.55)}
+.btn-hang:hover{background:#ff3a2e}
+.btn-hang:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.btn-hang .handset{width:34px;height:auto}
+.send small{color:#9d9d9d}
+
+.sent{padding:clamp(24px,4vw,44px);border-radius:16px;box-shadow:inset 0 0 0 2px var(--lime),0 0 40px -12px rgba(224,255,34,.55)}
+.sent[hidden]{display:none}
+.sent h3{margin:0 0 10px;font:400 clamp(2rem,4vw,3.2rem)/1 var(--display);text-transform:uppercase;color:var(--lime)}
+.sent p{margin:0 0 12px;max-width:50ch}
+.sent .draft{color:#9d9d9d;font-size:.88rem}
+.sent .btn{margin-top:8px}
+
+@media (max-width:980px){
+  .k-hero{grid-template-columns:1fr;min-height:0;--sign:clamp(5.4rem,26vw,9rem)}
+  .k-photo{justify-self:center;width:min(86vw,400px)}
+  .call{grid-template-columns:1fr}
+  .line{position:relative;top:0;display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:center}
+  .line .handset-big{width:90px;margin:0;grid-row:span 3}
+  .line-note{grid-column:1/-1}
+}
+@media (max-width:560px){.grid2,.grid3{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.line .handset-big{transition:none}}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Zum Inhalt springen</a>
+<header class="top">
+  <a class="alo-dot" href="index.html" data-home aria-label="ALÓ Events, zur Startseite">ALÓ</a>
+  <button class="menu-btn" type="button" data-menu aria-expanded="false" aria-controls="nav">Menü</button>
+  <nav class="nav" id="nav" aria-label="Hauptmenü"><ul><li><a href="partys.html">partys</a></li><li><a href="termine.html">termine</a></li><li><a href="index.html#ueber-uns">über uns</a></li><li><a href="pasaporte.html">pasaporte</a></li><li><a href="shop.html">shop</a></li><li><a href="kontakt.html" aria-current="page">ALÓ?</a></li></ul><a class="nav-cta" href="https://www.tickettailor.com/all-tickets/aloevents/">Tickets</a></nav>
+</header>
+
+<main id="main" class="wrap">
+  <section class="k-hero" aria-labelledby="hero-title">
+    <div>
+      <h1 class="sign" id="hero-title"><span class="sign-art"><span class="tube t-alo" data-t="ALÓ"><span class="glow">ALÓ</span></span><span class="tube t-alo red" data-t="?"><span class="glow">?</span></span></span> <span class="sub" data-in="up">Event anfragen – wir rufen zurück</span></h1>
+      <p class="k-intro" data-in="up">Firmenfeier, Hochzeit, Live-Act oder Pasaporte in deiner Stadt: Erzähl uns kurz, was du vorhast. Wir melden uns innerhalb von [48 Stunden].</p>
+      <div class="direct" data-in="up">
+        <h2>Lieber direkt?</h2>
+        <ul>
+          <li><span class="soon">WhatsApp <b>Nummer folgt</b></span></li>
+          <li><a href="https://www.instagram.com/wearealoevents/">Instagram <b>@wearealoevents</b></a></li>
+          <li><span class="soon">E-Mail <b>Adresse folgt</b></span></li>
+        </ul>
+      </div>
+    </div>
+    <figure class="k-photo" data-in="fade" data-at="0.15">
+      <img class="pic" src="https://static.wixstatic.com/media/558ab8_9a6ff0e1ae2f46ae9a377957b7346083~mv2.jpg/v1/fill/w_1080,h_1440,al_c,q_82,enc_auto/rotes-alo-telefon.jpg" srcset="https://static.wixstatic.com/media/558ab8_9a6ff0e1ae2f46ae9a377957b7346083~mv2.jpg/v1/fill/w_480,h_640,al_c,q_82,enc_auto/rotes-alo-telefon.jpg 480w, https://static.wixstatic.com/media/558ab8_9a6ff0e1ae2f46ae9a377957b7346083~mv2.jpg/v1/fill/w_800,h_1066,al_c,q_82,enc_auto/rotes-alo-telefon.jpg 800w, https://static.wixstatic.com/media/558ab8_9a6ff0e1ae2f46ae9a377957b7346083~mv2.jpg/v1/fill/w_1080,h_1440,al_c,q_82,enc_auto/rotes-alo-telefon.jpg 1080w, https://static.wixstatic.com/media/558ab8_9a6ff0e1ae2f46ae9a377957b7346083~mv2.jpg/v1/fill/w_1600,h_2133,al_c,q_82,enc_auto/rotes-alo-telefon.jpg 1600w" sizes="(max-width:980px) 86vw, 32vw" alt="Eine Hand auf dem roten ALÓ-Telefon" fetchpriority="high">
+      <figcaption>The call <span>that connects</span></figcaption>
+    </figure>
+  </section>
+
+  <div class="cord" aria-hidden="true"></div>
+
+  <section class="call" id="anfrage" aria-labelledby="h-call">
+    <aside class="line" aria-live="polite">
+      <svg class="handset-big" viewBox="0 0 120 64" aria-hidden="true" focusable="false"><path d="M24 44 C 30 8, 90 8, 96 44" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/><rect x="1" y="37" width="46" height="22" rx="11" transform="rotate(-16 24 48)" fill="currentColor"/><rect x="73" y="37" width="46" height="22" rx="11" transform="rotate(16 96 48)" fill="currentColor"/></svg>
+      <p class="line-state"><span class="dot" aria-hidden="true"></span><span class="line-text">Leitung frei</span></p>
+      <p class="line-time" aria-hidden="true">00:00</p>
+      <p class="line-note">Wir melden uns innerhalb von [48 Stunden] – per Telefon, wenn du eine Nummer angibst, sonst per E-Mail.</p>
+    </aside>
+
+    <div>
+      <h2 id="h-call">Der <span>Anruf</span></h2>
+      <form id="call-form" name="anfrage" method="POST" action="/kontakt.html?gesendet=1" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="anfrage">
+        <p hidden><label>Bitte nicht ausfüllen: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+        <fieldset>
+          <legend><b>1</b>Wer ruft an?</legend>
+          <div class="grid2">
+            <div class="f"><label for="f-vor">Vorname <i>*</i></label><input id="f-vor" name="vorname" type="text" autocomplete="given-name" required></div>
+            <div class="f"><label for="f-nach">Nachname <i>*</i></label><input id="f-nach" name="nachname" type="text" autocomplete="family-name" required></div>
+            <div class="f"><label for="f-mail">E-Mail <i>*</i></label><input id="f-mail" name="email" type="email" autocomplete="email" required></div>
+            <div class="f"><label for="f-tel">Telefon <span style="color:#9d9d9d;font-weight:400">(für den Rückruf)</span></label><input id="f-tel" name="telefon" type="tel" autocomplete="tel"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><b>2</b>Worum geht's?</legend>
+          <div class="chips">
+            <input type="radio" name="thema" id="t-firma" value="firmenevent"><label for="t-firma">Firmenevent</label>
+            <input type="radio" name="thema" id="t-feier" value="feier"><label for="t-feier">Hochzeit oder private Feier</label>
+            <input type="radio" name="thema" id="t-live" value="liveact"><label for="t-live">Live-Act buchen</label>
+            <input type="radio" name="thema" id="t-pas" value="pasaporte"><label for="t-pas">Pasaporte in meine Stadt</label>
+            <input type="radio" name="thema" id="t-tix" value="tickets"><label for="t-tix">Frage zu Tickets</label>
+            <input type="radio" name="thema" id="t-else" value="anderes"><label for="t-else">Etwas anderes</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><b>3</b>Wann, wo, wie viele?</legend>
+          <div class="grid3">
+            <div class="f"><label for="f-date">Datum</label><input id="f-date" name="datum" type="date"></div>
+            <div class="f"><label for="f-city">Stadt</label><input id="f-city" name="stadt" type="text" autocomplete="address-level2"></div>
+            <div class="f"><label for="f-guests">Gäste</label>
+              <select id="f-guests" name="gaeste"><option value="">Bitte wählen</option><option>bis 50</option><option>50 bis 150</option><option>150 bis 500</option><option>über 500</option><option>Weiß ich noch nicht</option></select></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><b>4</b>Erzähl mal</legend>
+          <div class="f"><label for="f-msg">Was hast du vor? <i>*</i></label><textarea id="f-msg" name="nachricht" required placeholder="Zum Beispiel: Sommerfest für 120 Leute, gern mit Saxofon und Percussion."></textarea></div>
+        </fieldset>
+
+        <label class="consent"><input type="checkbox" name="datenschutz" required><span>Ich bin einverstanden, dass ALÓ Events meine Angaben zur Bearbeitung der Anfrage nutzt. Mehr dazu in der <a href="datenschutz.html">Datenschutzerklärung</a>. <i style="color:var(--lime);font-style:normal">*</i></span></label>
+
+        <div class="send">
+          <button class="btn-hang" type="submit"><svg class="handset" viewBox="0 0 120 64" aria-hidden="true" focusable="false"><path d="M24 44 C 30 8, 90 8, 96 44" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/><rect x="1" y="37" width="46" height="22" rx="11" transform="rotate(-16 24 48)" fill="currentColor"/><rect x="73" y="37" width="46" height="22" rx="11" transform="rotate(16 96 48)" fill="currentColor"/></svg>Auflegen &amp; senden</button>
+          <small>* Pflichtfelder</small>
+          <p class="send-error" id="send-error" role="alert" hidden style="color:#FF2E4D;margin:12px 0 0;font-weight:600">Das hat leider nicht geklappt. Bitte versuch es gleich noch einmal oder schreib uns auf Instagram.</p>
+        </div>
+      </form>
+
+      <div class="sent" id="sent" hidden tabindex="-1">
+        <h3>Angekommen<span class="sent-name"></span>!</h3>
+        <p>Danke für deinen Anruf. Wir melden uns so schnell wie möglich bei dir. Bis gleich – aló!</p>
+        <button class="btn btn-alt" type="button" id="again">Neue Anfrage</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot"><div class="cord" aria-hidden="true"></div><div class="foot-in"><a class="alo-dot" href="index.html" data-home aria-label="ALÓ Events, zur Startseite">ALÓ</a><p class="foot-claim">ALÓ – <span>The call that connects.</span></p><ul aria-label="Social Media"><li><a href="https://www.instagram.com/wearealoevents/">Instagram</a></li><li><a href="https://www.tiktok.com/@alo.events">TikTok</a></li><li><a href="https://www.facebook.com/wearealoevents">Facebook</a></li></ul><div class="foot-legal"><p>© 2026 ALÓ Event Experiences UG</p><ul aria-label="Rechtliches"><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li><li><a href="agb.html">AGB</a></li></ul></div></div></footer>
+<div class="phone" id="alo-phone"><button class="phone-btn" type="button" aria-expanded="false" aria-controls="phone-panel" aria-label="Aló? Anrufen und Kontakt öffnen"><span class="ring-wave" aria-hidden="true"></span><span class="ring-wave" aria-hidden="true"></span><svg class="handset" viewBox="0 0 120 64" aria-hidden="true" focusable="false"><path d="M24 44 C 30 8, 90 8, 96 44" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/><rect x="1" y="37" width="46" height="22" rx="11" transform="rotate(-16 24 48)" fill="currentColor"/><rect x="73" y="37" width="46" height="22" rx="11" transform="rotate(16 96 48)" fill="currentColor"/></svg><span class="phone-btn-txt" aria-hidden="true">Aló?</span></button><div class="phone-panel" id="phone-panel" role="dialog" aria-labelledby="phone-title" hidden><div class="pp-head"><p class="pp-title" id="phone-title">Aló?<span>Wohin dürfen wir dich verbinden?</span></p><button class="pp-close" type="button" aria-label="Auflegen und schließen">×</button></div><div class="pp-dial"><svg class="dial" viewBox="0 0 300 300" aria-hidden="true" focusable="false"><defs><radialGradient id="dialShine" cx="35%" cy="28%" r="80%"><stop offset="0" stop-color="#FF6A4D"/><stop offset=".55" stop-color="#E3261B"/><stop offset="1" stop-color="#9E1209"/></radialGradient></defs><circle cx="150" cy="150" r="146" fill="url(#dialShine)"/><circle cx="150" cy="150" r="126" fill="#F4EEE4"/><circle cx="239.3" cy="117.5" r="17" fill="#FFFFFF"/><text x="239.3" y="125.5" text-anchor="middle" class="dial-num on">1</text><circle cx="211.1" cy="77.2" r="17" fill="#FFFFFF"/><text x="211.1" y="85.2" text-anchor="middle" class="dial-num on">2</text><circle cx="166.5" cy="56.4" r="17" fill="#FFFFFF"/><text x="166.5" y="64.4" text-anchor="middle" class="dial-num on">3</text><circle cx="117.5" cy="60.7" r="17" fill="#FFFFFF"/><text x="117.5" y="68.7" text-anchor="middle" class="dial-num on">4</text><circle cx="77.2" cy="88.9" r="17" fill="#E9E1D6"/><text x="77.2" y="96.9" text-anchor="middle" class="dial-num">5</text><circle cx="56.4" cy="133.5" r="17" fill="#E9E1D6"/><text x="56.4" y="141.5" text-anchor="middle" class="dial-num">6</text><circle cx="60.7" cy="182.5" r="17" fill="#E9E1D6"/><text x="60.7" y="190.5" text-anchor="middle" class="dial-num">7</text><circle cx="88.9" cy="222.8" r="17" fill="#E9E1D6"/><text x="88.9" y="230.8" text-anchor="middle" class="dial-num">8</text><circle cx="133.5" cy="243.6" r="17" fill="#E9E1D6"/><text x="133.5" y="251.6" text-anchor="middle" class="dial-num">9</text><circle cx="182.5" cy="239.3" r="17" fill="#E9E1D6"/><text x="182.5" y="247.3" text-anchor="middle" class="dial-num">0</text><g class="wheel" style="transform-origin:150px 150px"><path d="M26.0 150.0a124.0 124.0 0 1 0 248.0 0a124.0 124.0 0 1 0 -248.0 0ZM221.3 117.5a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0ZM193.1 77.2a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0ZM148.5 56.4a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0ZM99.5 60.7a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0ZM59.2 88.9a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0ZM38.4 133.5a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0ZM42.7 182.5a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0ZM70.9 222.8a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0ZM115.5 243.6a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0ZM164.5 239.3a18.0 18.0 0 1 0 36.0 0a18.0 18.0 0 1 0 -36.0 0Z" fill="rgba(227,38,27,.16)" fill-rule="evenodd" stroke="rgba(120,10,6,.35)" stroke-width="2"/><circle cx="239.3" cy="117.5" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle cx="211.1" cy="77.2" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle cx="166.5" cy="56.4" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle cx="117.5" cy="60.7" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle cx="77.2" cy="88.9" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle cx="56.4" cy="133.5" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle cx="60.7" cy="182.5" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle cx="88.9" cy="222.8" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle cx="133.5" cy="243.6" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle cx="182.5" cy="239.3" r="18" fill="none" stroke="rgba(120,10,6,.55)" stroke-width="2.4"/><circle class="dial-hit" data-k="1" cx="239.3" cy="117.5" r="20"/><circle class="dial-hit" data-k="2" cx="211.1" cy="77.2" r="20"/><circle class="dial-hit" data-k="3" cx="166.5" cy="56.4" r="20"/><circle class="dial-hit" data-k="4" cx="117.5" cy="60.7" r="20"/></g><path d="M241.8 198.8 L263.6 221.0" stroke="#D9D9D9" stroke-width="7" stroke-linecap="round"/><circle cx="150" cy="150" r="50" fill="#E0FF22"/><text x="150" y="165" text-anchor="middle" class="dial-logo">ALÓ</text></svg></div><p class="pp-hint">Dreh die Scheibe bis zum Anschlag oder wähl direkt:</p><ol class="pp-list"><li><a href="https://www.tickettailor.com/all-tickets/aloevents/" data-k="1"><b>1</b>Tickets</a></li><li><a href="kontakt.html?thema=event#anfrage" data-k="2"><b>2</b>Event anfragen</a></li><li><a href="kontakt.html?thema=liveact#anfrage" data-k="3"><b>3</b>Live-Act buchen</a></li><li><a href="https://wa.me/49XXXXXXXXXX?text=Al%C3%B3%21%20Ich%20habe%20eine%20Frage%20zu%20euren%20Events." data-k="4" data-wa><b>4</b>WhatsApp<small>Nummer folgt</small></a></li></ol><p class="pp-note" hidden>Die WhatsApp-Nummer tragen wir ein, sobald sie feststeht. Bis dahin: <a href="kontakt.html#anfrage">Anfrage schreiben</a>.</p><div class="pp-foot"><button class="pp-sound" type="button" aria-pressed="false">Ton aus</button></div></div></div>
+<script src="js/gsap.min.js"></script>
+<script>/* ALÓ Events – Seite: Menü, Hero-Auftritt, Präsentations-Leiste */
+(function () {
+  'use strict';
+  var doc = document.documentElement;
+  window.__aloPage = true;
+  var RM = false;
+  try { RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  // Startseiten-Variante merken, damit "zurück" von Unterseiten auf die richtige Variante führt (nur Entwurf)
+  try {
+    if (document.body.hasAttribute('data-home-page')) sessionStorage.setItem('alo-home', location.href.split(/[?#]/)[0]);
+    var home = sessionStorage.getItem('alo-home');
+    if (home) [].forEach.call(document.querySelectorAll('[data-home]'), function (a) { a.href = home; });
+  } catch (e) {}
+
+  // Menü (mobil)
+  var btn = document.querySelector('[data-menu]');
+  if (btn) {
+    var setOpen = function (open) {
+      btn.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('nav-open', open);
+    };
+    btn.addEventListener('click', function () { setOpen(btn.getAttribute('aria-expanded') !== 'true'); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') { setOpen(false); btn.focus(); }
+    });
+    var nav = document.getElementById(btn.getAttribute('aria-controls'));
+    if (nav) nav.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+  }
+
+  // Intro erneut abspielen (nur für die Präsentation)
+  var rp = document.querySelector('[data-replay]');
+  if (rp) rp.addEventListener('click', function () {
+    try { sessionStorage.removeItem((window.ALO_KEY||'alo-intro-gesehen')); } catch (e) {}
+    location.href = location.pathname + '?intro=1';
+  });
+
+  // Hero-Auftritt: Elemente kommen "auf Takt" (Abstand = Achtelnote bei 150 bpm)
+  window.aloHeroIn = function (fromOpener) {
+    if (RM || !window.gsap) { doc.classList.remove('js-in'); return; }
+    var els = [].slice.call(document.querySelectorAll('[data-in]'));
+    doc.classList.remove('js-in');
+    var tl = gsap.timeline();
+    var hero = document.querySelector('[data-hero]');
+    if (fromOpener && hero) tl.from(hero, { scale: 1.06, duration: 0.9, ease: 'power3.out', clearProps: 'transform' }, 0);
+    els.forEach(function (el, i) {
+      var kind = el.getAttribute('data-in') || 'up';
+      var from = { opacity: 0, duration: 0.7, ease: 'power3.out', clearProps: 'transform,opacity' };
+      if (kind === 'up') from.y = 26;
+      else if (kind === 'down') from.y = -30;
+      else if (kind === 'left') from.x = -44;
+      else if (kind === 'right') from.x = 44;
+      else if (kind === 'scale') { from.scale = 0.88; from.ease = 'back.out(1.6)'; }
+      else if (kind === 'spin') { from.rotation = -70; from.x = -60; from.ease = 'power4.out'; from.duration = 1.1; }
+      else if (kind === 'fade') { from.duration = 0.5; }
+      var at = el.hasAttribute('data-at') ? parseFloat(el.getAttribute('data-at')) : (fromOpener ? 0.1 : 0) + i * 0.1;
+      tl.from(el, from, at);
+    });
+  };
+  // Seiten ohne Intro: Merker sofort entfernen, sonst bliebe der Inhalt unsichtbar
+  if (doc.classList.contains('op-on') && !document.getElementById('intro')) doc.classList.remove('op-on');
+  if (!doc.classList.contains('op-on')) window.aloHeroIn(false);
+})();
+</script>
+<script>/* ALÓ Events – Telefon: Hörer-Button, Wählscheibe, Ton (optional)
+ * Jeder Kontakt ist ein Anruf: Button "nimmt ab", die Wählscheibe verbindet mit
+ * 1 Tickets, 2 Event anfragen, 3 Live-Act buchen, 4 WhatsApp.
+ * Drehen per Ziehen ODER Klick auf ein Loch; daneben immer normale Links (Tastatur, Screenreader).
+ */
+(function () {
+  'use strict';
+  var root = document.getElementById('alo-phone');
+  if (!root) return;
+  var btn = root.querySelector('.phone-btn');
+  var panel = root.querySelector('.phone-panel');
+  var wheel = root.querySelector('.dial .wheel');
+  var svg = root.querySelector('.dial');
+  var soundBtn = root.querySelector('.pp-sound');
+  var closeBtn = root.querySelector('.pp-close');
+  var RM = false;
+  try { RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  /* Fingerweg je Loch bis zum Anschlag (Grad), passend zu phone_svg.py */
+  var TRAVEL = { 1: 48, 2: 78, 3: 108, 4: 138 };
+  var STEP = 30;
+
+  /* ---------- Ton: aus, bis man ihn einschaltet ---------- */
+  var soundOn = false, ac = null;
+  try { soundOn = localStorage.getItem('alo-ton') === '1'; } catch (e) {}
+  function ctx() {
+    if (!ac) { var C = window.AudioContext || window.webkitAudioContext; if (C) ac = new C(); }
+    return ac;
+  }
+  function tick(when) {
+    var a = ctx(); if (!a) return;
+    var t = a.currentTime + (when || 0), o = a.createOscillator(), g = a.createGain();
+    o.type = 'square'; o.frequency.value = 1800;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.05, t + 0.002); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.025);
+    o.connect(g).connect(a.destination); o.start(t); o.stop(t + 0.03);
+  }
+  function ring(dur) {
+    var a = ctx(); if (!a) return;
+    var t = a.currentTime, g = a.createGain(), lfo = a.createOscillator(), lg = a.createGain();
+    g.gain.value = 0; g.connect(a.destination);
+    [650, 780].forEach(function (f) { var o = a.createOscillator(); o.type = 'triangle'; o.frequency.value = f; o.connect(g); o.start(t); o.stop(t + dur); });
+    lfo.frequency.value = 24; lg.gain.value = 0.05; lfo.connect(lg).connect(g.gain); lfo.start(t); lfo.stop(t + dur);
+    g.gain.setValueAtTime(0.05, t); g.gain.setValueAtTime(0.05, t + dur - 0.05); g.gain.linearRampToValueAtTime(0, t + dur);
+  }
+  window.aloSound = { tick: function (w) { if (soundOn) tick(w); }, ring: function (d) { if (soundOn) ring(d || 0.6); } };
+  function paintSound() {
+    if (!soundBtn) return;
+    soundBtn.setAttribute('aria-pressed', String(soundOn));
+    soundBtn.textContent = soundOn ? 'Ton an' : 'Ton aus';
+  }
+  if (soundBtn) soundBtn.addEventListener('click', function () {
+    soundOn = !soundOn;
+    try { localStorage.setItem('alo-ton', soundOn ? '1' : '0'); } catch (e) {}
+    paintSound();
+    if (soundOn) { var a = ctx(); if (a && a.resume) a.resume(); tick(0); }
+  });
+  paintSound();
+
+  /* ---------- Panel öffnen / schließen ---------- */
+  function isOpen() { return btn.getAttribute('aria-expanded') === 'true'; }
+  function open() {
+    panel.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    root.classList.add('is-open');
+    if (soundOn) { var a = ctx(); if (a && a.resume) a.resume(); tick(0); tick(0.06); }
+    var first = panel.querySelector('.pp-list a');
+    if (first) first.focus({ preventScroll: true });
+  }
+  function close(returnFocus) {
+    panel.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+    root.classList.remove('is-open');
+    if (returnFocus) btn.focus();
+  }
+  btn.addEventListener('click', function () { isOpen() ? close(false) : open(); });
+  if (closeBtn) closeBtn.addEventListener('click', function () { close(true); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen()) close(true); });
+  document.addEventListener('pointerdown', function (e) { if (isOpen() && !root.contains(e.target)) close(false); });
+  // andere Seiten-Buttons können das Telefon öffnen: <button data-phone-open>
+  [].forEach.call(document.querySelectorAll('[data-phone-open]'), function (el) {
+    el.addEventListener('click', function (e) { e.preventDefault(); open(); });
+  });
+
+  /* ---------- WhatsApp-Platzhalter ---------- */
+  function linkFor(k) { return panel.querySelector('.pp-list a[data-k="' + k + '"]'); }
+  function go(a) {
+    if (!a) return;
+    if (a.hasAttribute('data-wa') && /X{4}/.test(a.getAttribute('href'))) {
+      var note = panel.querySelector('.pp-note');
+      if (note) { note.hidden = false; }
+      return;
+    }
+    if (a.target === '_blank') window.open(a.href, '_blank', 'noopener'); else window.location.href = a.href;
+  }
+
+  /* ---------- Wählscheibe ---------- */
+  var angle = 0, busy = false, raf = 0;
+  function setAngle(a) { angle = a; if (wheel) wheel.style.transform = 'rotate(' + a + 'deg)'; }
+  function animate(from, to, dur, ease, done) {
+    cancelAnimationFrame(raf);
+    var t0 = performance.now(), lastStep = Math.floor(from / STEP);
+    function f(now) {
+      var u = Math.min(1, (now - t0) / dur), e = ease(u), a = from + (to - from) * e;
+      setAngle(a);
+      var s = Math.floor(a / STEP);
+      if (s !== lastStep && to < from) { window.aloSound.tick(0); lastStep = s; }
+      if (u < 1) raf = requestAnimationFrame(f); else if (done) done();
+    }
+    raf = requestAnimationFrame(f);
+  }
+  var easeOut = function (u) { return 1 - Math.pow(1 - u, 3); };
+  var linear = function (u) { return u; };
+  function springBack(done) {
+    // echte Wählscheiben laufen mit gleichmäßigem Tempo zurück (Fliehkraftregler)
+    animate(angle, 0, 140 + angle * 3.4, linear, done);
+  }
+  function dialNumber(k) {
+    var a = linkFor(k);
+    if (!a || busy) return;
+    if (RM || !wheel) { go(a); return; }
+    busy = true;
+    highlight(k);
+    animate(angle, TRAVEL[k], 260 + TRAVEL[k] * 2.2, easeOut, function () {
+      springBack(function () { busy = false; go(a); });
+    });
+  }
+  function highlight(k) {
+    [].forEach.call(panel.querySelectorAll('.pp-list a'), function (x) { x.classList.toggle('is-dialing', x.getAttribute('data-k') === String(k)); });
+  }
+
+  // Ziehen an einem Loch
+  var drag = null;
+  function pAngle(e) {
+    var r = svg.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    return Math.atan2(e.clientX - cx, -(e.clientY - cy)) * 180 / Math.PI;   // 0 = 12 Uhr, im Uhrzeigersinn
+  }
+  if (svg && wheel) {
+    svg.addEventListener('pointerdown', function (e) {
+      var hit = e.target.closest ? e.target.closest('.dial-hit') : null;
+      if (!hit || busy) return;
+      e.preventDefault();
+      drag = { k: +hit.getAttribute('data-k'), start: pAngle(e), moved: false, base: angle };
+      svg.setPointerCapture(e.pointerId);
+      highlight(drag.k);
+    });
+    svg.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var d = pAngle(e) - drag.start;
+      if (d < -180) d += 360; if (d > 180) d -= 360;
+      if (Math.abs(d) > 4) drag.moved = true;
+      setAngle(Math.max(0, Math.min(TRAVEL[drag.k], d)));
+    });
+    var end = function () {
+      if (!drag) return;
+      var k = drag.k, moved = drag.moved, reached = angle >= TRAVEL[k] - 6;
+      drag = null;
+      if (!moved) { setAngle(0); dialNumber(k); return; }       // Klick ohne Ziehen: automatisch wählen
+      busy = true;
+      springBack(function () { busy = false; if (reached) go(linkFor(k)); else highlight(0); });
+    };
+    svg.addEventListener('pointerup', end);
+    svg.addEventListener('pointercancel', end);
+  }
+
+  // normale Links: Scheibe dreht kurz mit, dann geht's los
+  [].forEach.call(panel.querySelectorAll('.pp-list a'), function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+      e.preventDefault();
+      dialNumber(+a.getAttribute('data-k'));
+    });
+  });
+
+  /* ---------- einmal kurz klingeln, damit man den Hörer bemerkt ---------- */
+  if (!RM) setTimeout(function () { if (!isOpen()) root.classList.add('ringing'); setTimeout(function () { root.classList.remove('ringing'); }, 1400); }, 2600);
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('call-form'), sent = document.getElementById('sent');
+  var line = document.querySelector('.line'), txt = line.querySelector('.line-text'), time = line.querySelector('.line-time');
+  // Vorauswahl über den Link (z. B. aus der Wählscheibe): kontakt.html?thema=liveact
+  var map = { liveact: 't-live', pasaporte: 't-pas', tickets: 't-tix', firmenevent: 't-firma', feier: 't-feier' };
+  var m = /[?&]thema=(\w+)/.exec(location.search);
+  if (m && map[m[1]]) document.getElementById(map[m[1]]).checked = true;
+
+  // Gesprächsdauer läuft, sobald man anfängt zu tippen
+  var t0 = 0, iv = 0;
+  function fmt(s) { return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); }
+  form.addEventListener('input', function () {
+    if (t0) return;
+    t0 = Date.now(); line.classList.add('live'); txt.textContent = 'Verbunden mit ALÓ';
+    iv = setInterval(function () { time.textContent = fmt(Math.floor((Date.now() - t0) / 1000)); }, 1000);
+  });
+
+  var errBox = document.getElementById('send-error'), sendBtn = form.querySelector('button[type="submit"]');
+  function showSent() {
+    clearInterval(iv);
+    var dur = t0 ? Math.floor((Date.now() - t0) / 1000) : 0;
+    line.classList.remove('live'); line.classList.add('done');
+    txt.textContent = 'Aufgelegt nach ' + fmt(dur);
+    if (window.aloSound) window.aloSound.ring(0.6);
+    var name = form.vorname.value.trim();
+    sent.querySelector('.sent-name').textContent = name ? ', ' + name : '';
+    form.hidden = true; sent.hidden = false; sent.focus();
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    errBox.hidden = true; sendBtn.disabled = true; sendBtn.setAttribute('aria-busy', 'true');
+    // Versand über Netlify Forms (Anfragen erscheinen im Netlify-Dashboard unter "Forms" und per E-Mail)
+    fetch('/kontakt.html', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(form)).toString()
+    }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      showSent();
+    }).catch(function () {
+      errBox.hidden = false;
+    }).finally(function () {
+      sendBtn.disabled = false; sendBtn.removeAttribute('aria-busy');
+    });
+  });
+  document.getElementById('again').addEventListener('click', function () {
+    form.reset(); form.hidden = false; sent.hidden = true; t0 = 0; time.textContent = '00:00';
+    line.classList.remove('done'); txt.textContent = 'Leitung frei'; form.querySelector('input').focus();
+  });
+})();
+</script>
+</body>
+</html>

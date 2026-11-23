@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Location Scout · ALÓ Events</title>
+<style>@font-face{font-family:"Anton";font-weight:400;font-display:swap;src:url("/fonts/anton-latin-400-normal.woff2") format("woff2")}@font-face{font-family:"Sora";font-weight:400;font-display:swap;src:url("/fonts/sora-latin-400-normal.woff2") format("woff2")}@font-face{font-family:"Sora";font-weight:600;font-display:swap;src:url("/fonts/sora-latin-600-normal.woff2") format("woff2")}@font-face{font-family:"Sora";font-weight:700;font-display:swap;src:url("/fonts/sora-latin-700-normal.woff2") format("woff2")}</style>
+<style>
+  /* ===== CI-Variablen: hier an ALÓ Website v5 angleichen ===== */
+  :root{
+    /* ALÓ CI (aus Website v5) */
+    --bg:#000; --panel:#0e0e0e; --panel-2:#121212; --line:#262626;
+    --text:#fff; --muted:#bdbdbd; --dim:#7a7a7a;
+    --neon:#E0FF22; --neon-2:#1EF2FF; --pink:#ED1566; --ok:#3df5a7; --warn:#ffc64d; --err:#FF2E4D;
+    --glow:0 0 18px rgba(224,255,34,.35);
+    --font-display:"Anton",Impact,sans-serif;
+    --font:"Sora",system-ui,sans-serif;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+  body{background:radial-gradient(1100px 520px at 90% -10%,rgba(237,21,102,.14),transparent 60%),radial-gradient(800px 480px at -10% 30%,rgba(30,242,255,.06),transparent 60%),var(--bg);min-height:100vh}
+  a{color:var(--neon-2);text-decoration:none} a:hover{text-decoration:underline}
+  button{font:inherit;cursor:pointer}
+  .wrap{max-width:1320px;margin:0 auto;padding:28px 24px 80px}
+  header.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{font-family:var(--font-display);font-weight:400;font-size:34px;letter-spacing:.02em;color:var(--neon);text-shadow:var(--glow);line-height:1}
+  .brand small{display:block;color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+  .tag{font-size:12px;padding:5px 10px;border:1px solid var(--line);border-radius:99px;color:var(--muted)}
+  .tag.demo{border-color:var(--warn);color:var(--warn)}
+  .grid{display:grid;grid-template-columns:380px 1fr;gap:24px;align-items:start}
+  @media (max-width:980px){.grid{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:var(--r);padding:22px}
+  .card h2{font-family:var(--font-display);font-size:20px;font-weight:400;letter-spacing:.03em;margin:0 0 18px;text-transform:uppercase}
+  .field{margin-bottom:22px}
+  .label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+  .label span{text-transform:none;letter-spacing:0;font-weight:400;color:var(--dim)}
+  input[type=text],input[type=password],input[type=search],input[type=number],select{width:100%;background:#0a0a0a;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:11px 13px;font:inherit;outline:none;transition:border-color .15s,box-shadow .15s}
+  input:focus,select:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(224,255,34,.2)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .chip{display:inline-flex;align-items:center;gap:7px;padding:6px 8px 6px 12px;border-radius:99px;background:rgba(224,255,34,.10);border:1px solid rgba(224,255,34,.35);font-size:13px}
+  .chip button{background:none;border:0;color:var(--muted);padding:0 4px;font-size:15px;line-height:1}
+  .chip button:hover{color:var(--text)}
+  .quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .quick button{background:none;border:1px dashed var(--line);color:var(--muted);border-radius:99px;padding:4px 10px;font-size:12px}
+  .quick button:hover{border-color:var(--neon-2);color:var(--neon-2)}
+  .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .opt{position:relative}
+  .opt input{position:absolute;opacity:0;inset:0}
+  .opt label{display:block;text-align:center;padding:11px 8px;border-radius:10px;border:1px solid var(--line);background:#0a0a0a;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;user-select:none}
+  .opt label b{display:block;font-family:var(--font-display);font-size:16px;font-weight:400}
+  .opt label small{color:var(--dim);font-size:11px}
+  .opt input:checked+label{border-color:var(--neon);background:rgba(224,255,34,.10);box-shadow:inset 0 0 0 1px var(--neon)}
+  .opt input:focus-visible+label{outline:2px solid var(--neon-2);outline-offset:2px}
+  /* Doppel-Regler Kapazität */
+  .cap-vals{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .cap-vals input{width:100%;text-align:center;font-family:var(--font-display);font-weight:400;font-size:22px;padding:9px 6px}
+  .cap-vals input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .cap-vals input{-moz-appearance:textfield}
+  .dual input[type=range]:focus{outline:none;box-shadow:none;border-color:transparent}
+  .cap-vals span{color:var(--dim)}
+  .dual{position:relative;height:34px;margin:0 9px}
+  .dual .track{position:absolute;left:0;right:0;top:15px;height:4px;border-radius:4px;background:var(--line)}
+  .dual .fill{position:absolute;top:15px;height:4px;border-radius:4px;background:var(--neon);box-shadow:0 0 12px rgba(224,255,34,.55)}
+  .dual input[type=range]{position:absolute;left:-9px;right:-9px;width:calc(100% + 18px);top:0;height:34px;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
+  .dual input[type=range]::-webkit-slider-runnable-track{background:none;height:34px}
+  .dual input[type=range]::-moz-range-track{background:none}
+  .dual input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:20px;height:20px;margin-top:7px;border-radius:50%;background:#fff;border:3px solid var(--neon);box-shadow:0 0 0 4px rgba(224,255,34,.2),var(--glow);cursor:grab}
+  .dual input[type=range]::-moz-range-thumb{pointer-events:auto;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid var(--neon);box-shadow:var(--glow);cursor:grab}
+  .dual input[type=range]:active::-webkit-slider-thumb{cursor:grabbing;transform:scale(1.1)}
+  .dual input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--neon-2);outline-offset:2px}
+  .ticks{position:relative;height:18px;margin:2px 9px 0;font-size:11px;color:var(--dim)}
+  .ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+  .ticks span::before{content:"";position:absolute;left:50%;top:-6px;width:1px;height:4px;background:var(--dim)}
+  .presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .presets button{background:#0a0a0a;border:1px solid var(--line);color:var(--muted);border-radius:99px;padding:5px 11px;font-size:12px}
+  .presets button:hover,.presets button.on{border-color:var(--neon);color:var(--text)}
+  .types{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .types .opt label{text-align:left;padding:9px 12px}
+  .range-out{margin-top:9px;font-size:13px;color:var(--muted)} .range-out b{color:var(--text)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 18px;font-weight:600}
+  .btn.primary{width:100%;background:var(--neon);color:#000;font-family:var(--font-display);font-weight:400;font-size:18px;letter-spacing:.05em;text-transform:uppercase;box-shadow:var(--glow);transition:transform .12s,filter .12s}
+  .btn.primary:hover{filter:brightness(1.08)} .btn.primary:active{transform:scale(.98)}
+  .btn.primary:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text);padding:9px 14px;font-size:13px}
+  .btn.ghost:hover{border-color:var(--neon-2)}
+  .hint{font-size:12px;color:var(--dim);margin-top:10px;line-height:1.45}
+  /* Fortschritt */
+  .jobs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-bottom:20px}
+  .job{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#0b0b0b}
+  .job .c{display:flex;justify-content:space-between;align-items:center;font-weight:600}
+  .job .n{font-size:12px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--dim);flex:none}
+  .dot.running{background:var(--neon-2);box-shadow:0 0 10px var(--neon-2);animation:pulse 1.2s infinite}
+  .dot.done{background:var(--ok)} .dot.error{background:var(--err)}
+  @keyframes pulse{50%{opacity:.35}}
+  /* Toolbar & Tabelle */
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+  .toolbar input[type=search]{flex:1;min-width:200px}
+  .toolbar label.tg{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);cursor:pointer;white-space:nowrap}
+  .count{font-size:13px;color:var(--muted);margin-left:auto}
+  .tbl-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;max-height:68vh}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{position:sticky;top:0;background:#141414;text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:11px 12px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;user-select:none}
+  th:hover{color:var(--text)} th.sorted{color:var(--neon)}
+  td{padding:11px 12px;border-bottom:1px solid #1c1c1c;vertical-align:top}
+  tr:hover td{background:rgba(255,255,255,.02)}
+  td.name b{display:block;font-weight:600} td.name small{color:var(--dim)}
+  td:nth-child(2){min-width:130px}
+  .cap{font-family:var(--font-display);font-weight:400;font-size:18px;letter-spacing:.02em}
+  .fit{display:inline-block;font-size:11px;padding:2px 7px;border-radius:99px;margin-top:3px}
+  .fit.passt{background:rgba(61,245,167,.12);color:var(--ok)}
+  .fit.unbekannt{background:rgba(255,198,77,.12);color:var(--warn)}
+  .fit.größer,.fit.kleiner{background:rgba(163,149,181,.12);color:var(--muted)}
+  .conf{font-size:11px;color:var(--dim)}
+  .contact a{display:block;white-space:nowrap}
+  .na{color:var(--dim)}
+  .notes{max-width:280px;color:var(--muted);font-size:12.5px}
+  .src a{font-size:12px;margin-right:6px}
+  select.st{padding:6px 8px;font-size:12.5px;border-radius:8px;width:auto}
+  .empty{padding:60px 20px;text-align:center;color:var(--muted)}
+  .empty b{display:block;font-family:var(--font-display);font-weight:400;color:var(--text);font-size:22px;margin-bottom:6px}
+  .banner{border:1px solid var(--warn);background:rgba(255,198,77,.08);color:var(--warn);padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:16px}
+  .err{color:var(--err);font-size:13px;margin-top:10px}
+  .usage{font-size:12px;color:var(--dim);margin-top:8px}
+  /* Login */
+  .login{max-width:420px;margin:12vh auto 0}
+  .login .logo{font-size:40px;margin-bottom:4px}
+  .login p{color:var(--muted);margin:0 0 22px}
+  .hidden{display:none!important}
+  .history{display:flex;flex-direction:column;gap:6px}
+  .history button{display:flex;justify-content:space-between;gap:8px;background:#0a0a0a;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 12px;font-size:13px;text-align:left}
+  .history button:hover{border-color:var(--neon-2)}
+  .history small{color:var(--dim);white-space:nowrap}
+
+  /* Claude-Brücke */
+  .steps{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .step{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
+  .step i{font-style:normal;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);font-family:var(--font-display);font-size:12px}
+  .step.on{color:var(--text)} .step.on i{border-color:var(--neon);background:var(--neon);color:#000}
+  .step+.step::before{content:"";width:18px;height:1px;background:var(--line)}
+  .tasks{display:flex;flex-direction:column;gap:12px;margin-bottom:22px}
+  .task{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#0b0b0b}
+  .task.done{border-color:rgba(61,245,167,.35)}
+  .task-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .task-h strong{font-size:15px;margin-right:auto}
+  .pill{font-size:11px;padding:3px 9px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+  .pill.ok{border-color:rgba(61,245,167,.5);color:var(--ok)}
+  .btn.claude{background:var(--pink);color:#fff;font-weight:700;padding:9px 14px;font-size:13px;border-radius:10px}
+  .btn.claude:hover{filter:brightness(1.08);text-decoration:none}
+  .paste{margin-top:12px;display:none}
+  .task.open .paste{display:block}
+  textarea{width:100%;min-height:110px;background:#050505;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:11px 13px;font:12.5px/1.45 ui-monospace,Menlo,monospace;resize:vertical;outline:none}
+  textarea:focus{border-color:var(--neon)}
+  .paste-row{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+  .msg{font-size:12.5px} .msg.ok{color:var(--ok)} .msg.bad{color:var(--err)}
+  .howto{font-size:13px;color:var(--muted);line-height:1.55;border-left:2px solid var(--neon);padding:4px 0 4px 14px;margin:0 0 18px}
+  .howto b{color:var(--text)}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#161616;border:1px solid var(--neon);color:var(--text);padding:10px 16px;border-radius:10px;font-size:13px;opacity:0;transition:all .25s;pointer-events:none;z-index:9}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<section id="app" class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="logo">ALÓ</div>
+      <div><strong>Location Scout</strong><small>Locations finden · Kontakte sammeln</small></div>
+    </div>
+    <span class="tag">recherchiert mit Claude</span>
+  </header>
+
+  <div class="grid">
+    <aside>
+      <form class="card" id="searchForm">
+        <h2>Neue Suche</h2>
+
+        <div class="field">
+          <div class="label">Städte <span>Enter zum Hinzufügen · max. 10</span></div>
+          <input type="text" id="cityInput" list="cityList" placeholder="z. B. Köln" autocomplete="off">
+          <datalist id="cityList"></datalist>
+          <div class="chips" id="cityChips"></div>
+          <div class="quick" id="quickCities"></div>
+        </div>
+
+        <div class="field">
+          <div class="label">Kapazität <span>Gäste stehend</span></div>
+          <div class="cap-vals">
+            <input type="number" id="capMinNum" aria-label="Minimum Gäste" inputmode="numeric">
+            <span>bis</span>
+            <input type="number" id="capMaxNum" aria-label="Maximum Gäste" inputmode="numeric">
+          </div>
+          <div class="dual">
+            <div class="track"></div><div class="fill" id="capFill"></div>
+            <input type="range" id="capMin" aria-label="Minimum Gäste">
+            <input type="range" id="capMax" aria-label="Maximum Gäste">
+          </div>
+          <div class="ticks" id="capTicks"></div>
+          <div class="presets" id="capPresets"></div>
+        </div>
+
+        <div class="field">
+          <div class="label">Location-Typen</div>
+          <div class="types" id="typeBox"></div>
+        </div>
+
+        <div class="field">
+          <div class="label">Locations pro Stadt</div>
+          <select id="perCity">
+            <option value="10">bis zu 10</option>
+            <option value="15" selected>bis zu 15</option>
+            <option value="20">bis zu 20</option>
+          </select>
+        </div>
+
+        <button class="btn primary" id="startBtn" type="submit">Recherche vorbereiten</button>
+        <div class="err" id="formErr"></div>
+        <div class="hint">Für jede Stadt entsteht ein fertiger Recherche-Auftrag. Claude sucht damit im Web und liest die Websites der Locations. Kosten: keine, es läuft über euer Claude-Konto.</div>
+      </form>
+
+      <div class="card" style="margin-top:16px" id="historyCard">
+        <h2>Letzte Suchen</h2>
+        <div class="history" id="history"></div>
+      </div>
+    </aside>
+
+    <main class="card">
+      <h2 id="resTitle">Ergebnisse</h2>
+      <div class="steps" id="steps">
+        <div class="step on" data-s="1"><i>1</i>Suche einstellen</div>
+        <div class="step" data-s="2"><i>2</i>Claude recherchiert</div>
+        <div class="step" data-s="3"><i>3</i>Antwort einfügen</div>
+      </div>
+
+      <div id="taskArea" class="hidden">
+        <p class="howto">Pro Stadt: <b>„In Claude öffnen“</b> klicken. Der Auftrag ist schon kopiert. Falls das Eingabefeld leer ist, mit <b>Cmd + V</b> einfügen und abschicken. Wenn Claude fertig ist, unter dem JSON-Block auf <b>„Kopieren“</b> klicken und die Antwort hier einfügen.</p>
+        <div class="tasks" id="tasks"></div>
+      </div>
+
+      <div class="toolbar">
+        <input type="search" id="filter" placeholder="Filtern nach Name, Stadt, Typ …">
+        <label class="tg"><input type="checkbox" id="onlyFit"> nur passende Kapazität</label>
+        <label class="tg"><input type="checkbox" id="onlyMail"> nur mit E-Mail</label>
+        <button class="btn ghost" id="copyBtn" type="button">Für Excel kopieren</button>
+        <button class="btn ghost" id="csvBtn" type="button">CSV laden</button>
+        <span class="count" id="count"></span>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr id="thead"></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div class="empty" id="empty"><b>Noch keine Ergebnisse</b>Links Städte und Kapazität wählen und „Recherche vorbereiten“ klicken.</div>
+      </div>
+    </main>
+  </div>
+</section>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+  // ---------- Konfiguration ----------
+  const CITIES = ["Berlin","Hamburg","München","Köln","Frankfurt am Main","Stuttgart","Düsseldorf","Leipzig","Dortmund","Essen","Bremen","Dresden","Hannover","Nürnberg","Duisburg","Bochum","Wuppertal","Bielefeld","Bonn","Münster","Mannheim","Karlsruhe","Augsburg","Wiesbaden","Mönchengladbach","Gelsenkirchen","Aachen","Braunschweig","Kiel","Chemnitz","Halle (Saale)","Magdeburg","Freiburg im Breisgau","Krefeld","Mainz","Lübeck","Erfurt","Oberhausen","Rostock","Kassel","Hagen","Potsdam","Saarbrücken","Hamm","Ludwigshafen","Oldenburg","Mülheim an der Ruhr","Osnabrück","Leverkusen","Darmstadt","Heidelberg","Solingen","Regensburg","Herne","Paderborn","Neuss","Ingolstadt","Offenbach am Main","Würzburg","Ulm","Heilbronn","Pforzheim","Wolfsburg","Göttingen","Bottrop","Reutlingen","Koblenz","Bremerhaven","Recklinghausen","Erlangen","Bergisch Gladbach","Remscheid","Jena","Trier","Salzgitter","Moers","Siegen","Hildesheim","Cottbus","Gütersloh"];
+  const QUICK = ["Frankfurt am Main","Köln","Berlin","Hamburg","München","Düsseldorf","Stuttgart"];
+  const SCALE = [];
+  for (let v = 100; v <= 1000; v += 50) SCALE.push(v);
+  for (let v = 1100; v <= 2500; v += 100) SCALE.push(v);
+  const PRESETS = [
+    {t:"Bar / kleiner Club", min:100, max:300}, {t:"Club", min:300, max:700},
+    {t:"Großer Club", min:700, max:1200}, {t:"Halle", min:1200, max:2500},
+  ];
+  const TYPES = ["Club","Eventhalle","Hotel / Ballsaal","Bar mit Saal","Kulturzentrum","Open Air"];
+  const STATUSES = ["Neu","Angefragt","Angebot erhalten","Zusage","Absage"];
+  const COLS = [
+    {k:"name", t:"Location"}, {k:"capacity_max", t:"Kapazität"}, {k:"contact", t:"Kontakt", nosort:true},
+    {k:"address", t:"Adresse"}, {k:"notes", t:"Infos", nosort:true}, {k:"status", t:"Status"},
+  ];
+  const CLAUDE_NEW = "https://claude.ai/new";
+
+  // ---------- Helfer ----------
+  const $ = (id) => document.getElementById(id);
+  const LS = { get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}}, set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}} };
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const fmt = (n) => n == null || n === "" ? "" : Number(n).toLocaleString("de-DE");
+  const host = (u) => { try { return new URL(u).hostname.replace(/^www\./,""); } catch { return u; } };
+  const rowKey = (l) => (l.city + "|" + l.name).toLowerCase();
+  const safeUrl = (u) => /^https?:\/\//i.test(String(u||"")) ? u : "";
+  let toastT;
+  function toast(t){ const el=$("toast"); el.textContent=t; el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove("show"),2600); }
+  async function copy(text){
+    try { await navigator.clipboard.writeText(text); return true; }
+    catch { // Fallback für Umgebungen ohne Clipboard-API
+      try { const ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); const ok=document.execCommand("copy"); ta.remove(); return ok; } catch { return false; }
+    }
+  }
+
+  // ---------- State ----------
+  let cities = [];
+  let current = null;   // {id, createdAt, params, tasks:[{city, prompt, imported, locations:[]}]}
+  let sort = {k:"relevance", dir:1};
+  const statusMap = LS.get("alo_scout_status", {});
+
+  // ---------- Städte ----------
+  $("cityList").innerHTML = CITIES.map(c => `<option value="${esc(c)}">`).join("");
+  function addCity(c) {
+    c = c.trim(); if (!c) return;
+    const match = CITIES.find(x => x.toLowerCase() === c.toLowerCase()) || c;
+    if (!cities.includes(match) && cities.length < 10) cities.push(match);
+    $("cityInput").value = ""; renderCities();
+  }
+  function renderCities() {
+    $("cityChips").innerHTML = cities.map((c,i) => `<span class="chip">${esc(c)}<button type="button" aria-label="${esc(c)} entfernen" data-i="${i}">×</button></span>`).join("");
+    $("quickCities").innerHTML = QUICK.filter(c => !cities.includes(c)).map(c => `<button type="button" data-c="${esc(c)}">+ ${esc(c)}</button>`).join("");
+  }
+  $("cityInput").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addCity(e.target.value); } });
+  $("cityInput").addEventListener("change", e => { if (CITIES.includes(e.target.value)) addCity(e.target.value); });
+  $("cityChips").onclick = e => { const i = e.target.dataset.i; if (i != null) { cities.splice(+i,1); renderCities(); } };
+  $("quickCities").onclick = e => { if (e.target.dataset.c) addCity(e.target.dataset.c); };
+  renderCities();
+
+  // ---------- Kapazität: Doppel-Regler ----------
+  const idxOf = (v) => SCALE.reduce((best, x, i) => Math.abs(x - v) < Math.abs(SCALE[best] - v) ? i : best, 0);
+  const pct = (i) => (i / (SCALE.length - 1)) * 100;
+  const rMin = $("capMin"), rMax = $("capMax");
+  [rMin, rMax].forEach(r => { r.min = 0; r.max = SCALE.length - 1; r.step = 1; });
+  rMin.value = idxOf(300); rMax.value = idxOf(1200);
+  $("capTicks").innerHTML = [100, 500, 1000, 1500, 2000, 2500].map(v => `<span style="left:${pct(idxOf(v))}%">${fmt(v)}</span>`).join("");
+  $("capPresets").innerHTML = PRESETS.map((p,i) => `<button type="button" data-i="${i}">${p.t} <span style="color:var(--dim)">${fmt(p.min)}–${fmt(p.max)}</span></button>`).join("");
+
+  function renderRange() {
+    const a = +rMin.value, b = +rMax.value;
+    $("capFill").style.left = pct(a) + "%";
+    $("capFill").style.width = (pct(b) - pct(a)) + "%";
+    $("capMinNum").value = SCALE[a]; $("capMaxNum").value = SCALE[b];
+    rMin.style.zIndex = a > SCALE.length - 4 ? 3 : 1;   // linken Regler greifbar halten, wenn beide rechts stehen
+    rMin.setAttribute("aria-valuetext", fmt(SCALE[a]) + " Gäste");
+    rMax.setAttribute("aria-valuetext", fmt(SCALE[b]) + " Gäste");
+    [...$("capPresets").children].forEach((btn,i) => btn.classList.toggle("on", PRESETS[i].min === SCALE[a] && PRESETS[i].max === SCALE[b]));
+  }
+  rMin.addEventListener("input", () => { if (+rMin.value >= +rMax.value) rMin.value = +rMax.value - 1; renderRange(); });
+  rMax.addEventListener("input", () => { if (+rMax.value <= +rMin.value) rMax.value = +rMin.value + 1; renderRange(); });
+  function fromNumbers() {
+    let a = idxOf(+$("capMinNum").value || 100), b = idxOf(+$("capMaxNum").value || 2500);
+    if (a >= b) { if (a === SCALE.length - 1) a = b - 1; else b = a + 1; }
+    rMin.value = a; rMax.value = b; renderRange();
+  }
+  $("capMinNum").addEventListener("change", fromNumbers);
+  $("capMaxNum").addEventListener("change", fromNumbers);
+  $("capPresets").onclick = e => { const b = e.target.closest("button"); if (!b) return; const p = PRESETS[b.dataset.i]; rMin.value = idxOf(p.min); rMax.value = idxOf(p.max); renderRange(); };
+  const capRange = () => ({ min: SCALE[+rMin.value], max: SCALE[+rMax.value] });
+  renderRange();
+
+  $("typeBox").innerHTML = TYPES.map((t,i) => `<div class="opt"><input type="checkbox" id="ty_${i}" value="${esc(t)}" ${i<3?"checked":""}><label for="ty_${i}">${esc(t)}</label></div>`).join("");
+
+
+
+  // ---------- Recherche-Auftrag für Claude ----------
+  function buildPrompt(city, p) {
+    const types = p.types.length ? p.types.join(", ") : "alle geeigneten Typen";
+    return `Du bist Location-Scout für ALÓ Events, eine Agentur für Latin-Partys (Reggaeton, Salsa, Bachata, Latin Urban).
+
+AUFTRAG
+Finde mit der Websuche Party-Locations in ${city} (Deutschland) für ${fmt(p.capacityMin)}–${fmt(p.capacityMax)} Gäste (stehend, Partybetrieb).
+Location-Typen: ${types}
+Anzahl: bis zu ${p.maxPerCity} Locations
+
+VORGEHEN
+1. Suche auf Deutsch mit mehreren Formulierungen, z. B. „Eventlocation ${city} ${p.capacityMax} Personen“, „Club ${city} mieten“, „Veranstaltungshalle ${city} Kapazität“, „Partylocation ${city} stehend“. Portale und Listen dürfen zum FINDEN genutzt werden.
+2. Öffne für jede Location die OFFIZIELLE Website (Kontakt, Impressum, Vermietung/Events/Technik) und nimm Telefon, E-Mail und Kapazität von dort.
+3. Bevorzuge Kontakte für Vermietung/Booking/Events vor allgemeinen Adressen.
+
+REGELN
+- Erfinde nichts. Was du nicht in einer Quelle gefunden hast, ist null.
+- capacity_max = Stehkapazität laut Quelle. Gibt es nur eine bestuhlte Zahl: capacity_max null, Angabe in capacity_text.
+- Locations mit unbekannter, aber plausibel passender Kapazität aufnehmen, dann confidence "niedrig".
+- Keine dauerhaft geschlossenen Locations. contact_person nur, wenn öffentlich als Event-/Vermietungskontakt genannt.
+
+AUSGABE
+Schreibe zuerst 1–2 Sätze zum Vorgehen. Gib danach ALLE Ergebnisse in genau EINEM JSON-Codeblock in diesem Format aus und schreibe danach nichts mehr:
+\`\`\`json
+{"city":"${city}","locations":[{"name":"","type":"","address":null,"capacity_max":null,"capacity_text":null,"phone":null,"email":null,"website":null,"booking_url":null,"contact_person":null,"notes":null,"confidence":"hoch|mittel|niedrig","sources":["https://…"]}]}
+\`\`\``;
+  }
+  const claudeUrl = (prompt) => CLAUDE_NEW + "?q=" + encodeURIComponent(prompt);
+
+  $("searchForm").onsubmit = (e) => {
+    e.preventDefault();
+    $("formErr").textContent = "";
+    if ($("cityInput").value.trim()) addCity($("cityInput").value);
+    const r = capRange();
+    const types = [...$("typeBox").querySelectorAll("input:checked")].map(i => i.value);
+    if (!cities.length) return $("formErr").textContent = "Bitte mindestens eine Stadt hinzufügen.";
+    const params = { cities:[...cities], capacityMin:r.min, capacityMax:r.max, types, maxPerCity:+$("perCity").value };
+    current = { id:"run_"+Date.now(), createdAt:new Date().toISOString(), params,
+      tasks: params.cities.map(city => ({ city, prompt: buildPrompt(city, params), imported:false, locations:[] })) };
+    saveRun(); renderAll();
+    $("taskArea").scrollIntoView({behavior:"smooth", block:"start"});
+  };
+
+  // ---------- Antwort von Claude einlesen ----------
+  function extractJson(text) {
+    const t = String(text || "").trim();
+    const blocks = [...t.matchAll(/```(?:json)?\s*([\s\S]*?)```/gi)].map(m => m[1].trim());
+    const candidates = [...blocks.reverse(), t];
+    const s1 = t.indexOf("{"), e1 = t.lastIndexOf("}"); if (s1 >= 0 && e1 > s1) candidates.push(t.slice(s1, e1 + 1));
+    const s2 = t.indexOf("["), e2 = t.lastIndexOf("]"); if (s2 >= 0 && e2 > s2) candidates.push(t.slice(s2, e2 + 1));
+    for (const c of candidates) {
+      try {
+        const v = JSON.parse(c.replace(/[“”]/g, '"'));
+        const list = Array.isArray(v) ? v : Array.isArray(v?.locations) ? v.locations : null;
+        if (list) return list;
+      } catch {}
+    }
+    return null;
+  }
+  const num = (v) => { if (v == null || v === "") return null; const n = parseInt(String(v).replace(/[^\d]/g, ""), 10); return isNaN(n) ? null : n; };
+  const str = (v) => v == null || String(v).trim() === "" || /^(null|n\/a|unbekannt|-|–)$/i.test(String(v).trim()) ? null : String(v).trim();
+  function normalize(list, city, p) {
+    const seen = new Set();
+    return list.filter(l => l && str(l.name)).map(l => {
+      const cap = num(l.capacity_max);
+      return {
+        name: str(l.name), type: str(l.type) || "–", city,
+        address: str(l.address), capacity_max: cap, capacity_text: str(l.capacity_text),
+        phone: str(l.phone), email: str(l.email), website: safeUrl(str(l.website)), booking_url: safeUrl(str(l.booking_url)),
+        contact_person: str(l.contact_person), notes: str(l.notes),
+        confidence: ["hoch","mittel","niedrig"].includes(l.confidence) ? l.confidence : "niedrig",
+        sources: (Array.isArray(l.sources) ? l.sources : []).map(safeUrl).filter(Boolean),
+        capacity_fit: cap == null ? "unbekannt" : cap >= p.capacityMin && cap <= p.capacityMax ? "passt" : cap > p.capacityMax ? "größer" : "kleiner",
+      };
+    }).filter(l => { const k = rowKey(l); if (seen.has(k)) return false; seen.add(k); return true; });
+  }
+
+  // ---------- Aufgaben-Karten ----------
+  function renderTasks() {
+    $("taskArea").classList.toggle("hidden", !current);
+    if (!current) return;
+    $("tasks").innerHTML = current.tasks.map((t,i) => `
+      <div class="task ${t.imported ? "done" : ""}" data-i="${i}">
+        <div class="task-h">
+          <strong>${esc(t.city)}</strong>
+          <span class="pill ${t.imported ? "ok" : ""}">${t.imported ? `${t.locations.length} Locations übernommen` : "offen"}</span>
+          <a class="btn claude" href="${esc(claudeUrl(t.prompt))}" target="_blank" rel="noopener" data-act="open">In Claude öffnen ↗</a>
+          <button class="btn ghost" type="button" data-act="copy">Auftrag kopieren</button>
+          <button class="btn ghost" type="button" data-act="toggle">${t.imported ? "Neu einfügen" : "Antwort einfügen"}</button>
+        </div>
+        <div class="paste">
+          <textarea placeholder="Komplette Antwort von Claude hier einfügen (Cmd + V) …" aria-label="Antwort von Claude für ${esc(t.city)}"></textarea>
+          <div class="paste-row"><button class="btn primary" type="button" data-act="import" style="width:auto;padding:10px 18px;font-size:12px">Übernehmen</button><span class="msg" aria-live="polite"></span></div>
+        </div>
+      </div>`).join("");
+    const done = current.tasks.filter(t => t.imported).length;
+    [...$("steps").children].forEach(el => el.classList.toggle("on", +el.dataset.s <= (done ? 3 : 2)));
+  }
+  $("tasks").addEventListener("click", async (e) => {
+    const btn = e.target.closest("[data-act]"); if (!btn) return;
+    const card = btn.closest(".task"), t = current.tasks[+card.dataset.i];
+    const act = btn.dataset.act;
+    if (act === "open" || act === "copy") {
+      const ok = await copy(t.prompt);
+      toast(ok ? (act === "open" ? "Auftrag kopiert – Claude öffnet sich. Falls das Feld leer ist: Cmd + V" : "Auftrag kopiert") : "Kopieren nicht möglich – bitte den Link nutzen");
+      card.classList.add("open");
+    }
+    if (act === "toggle") { card.classList.toggle("open"); card.querySelector("textarea").focus(); }
+    if (act === "import") {
+      const msg = card.querySelector(".msg");
+      const list = extractJson(card.querySelector("textarea").value);
+      if (!list) { msg.className = "msg bad"; msg.textContent = "Kein gültiger JSON-Block gefunden. Bitte die komplette Antwort bzw. den JSON-Block kopieren."; return; }
+      const locs = normalize(list, t.city, current.params);
+      if (!locs.length) { msg.className = "msg bad"; msg.textContent = "Der Block enthält keine Locations."; return; }
+      t.locations = locs; t.imported = true;
+      saveRun(); renderAll();
+      toast(`${locs.length} Locations für ${t.city} übernommen`);
+    }
+  });
+
+  // ---------- Verlauf (lokal im Browser) ----------
+  const HKEY = "alo_scout_free_hist";
+  function saveRun() { const h = LS.get(HKEY, []).filter(x => x.id !== current.id); h.unshift(current); LS.set(HKEY, h.slice(0, 15)); renderHistory(); }
+  function loadRun(id) { current = LS.get(HKEY, []).find(x => x.id === id) || null; renderAll(); }
+  function renderHistory() {
+    const h = LS.get(HKEY, []);
+    $("historyCard").classList.toggle("hidden", !h.length);
+    $("history").innerHTML = h.map(r => {
+      const n = r.tasks.reduce((a,t)=>a+(t.locations?.length||0),0);
+      return `<button type="button" data-id="${r.id}"><span>${esc(r.params.cities.join(", "))}<br><small>${fmt(r.params.capacityMin)}–${fmt(r.params.capacityMax)} Gäste · ${n} Locations</small></span><small>${new Date(r.createdAt).toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit"})}</small></button>`;
+    }).join("");
+  }
+  $("history").onclick = e => { const b = e.target.closest("button"); if (b) loadRun(b.dataset.id); };
+
+  // ---------- Tabelle ----------
+  function allLocations() { return current ? current.tasks.flatMap(t => t.locations || []) : []; }
+  function filtered() {
+    const q = $("filter").value.trim().toLowerCase();
+    const rows = allLocations().filter(l =>
+      (!q || [l.name,l.city,l.type,l.address,l.notes].join(" ").toLowerCase().includes(q)) &&
+      (!$("onlyFit").checked || l.capacity_fit === "passt") &&
+      (!$("onlyMail").checked || l.email));
+    const k = sort.k;
+    if (k === "relevance") {
+      const fr = {passt:0, unbekannt:1, größer:2, kleiner:3}, cr = {hoch:0, mittel:1, niedrig:2};
+      return rows.sort((a,b) => (fr[a.capacity_fit]-fr[b.capacity_fit]) || (cr[a.confidence]-cr[b.confidence]) || ((b.capacity_max||0)-(a.capacity_max||0)));
+    }
+    return rows.sort((a,b) => {
+      const va = k === "status" ? (statusMap[rowKey(a)]||"Neu") : a[k], vb = k === "status" ? (statusMap[rowKey(b)]||"Neu") : b[k];
+      if (va == null && vb == null) return 0; if (va == null) return 1; if (vb == null) return -1;
+      return (typeof va === "number" ? va - vb : String(va).localeCompare(String(vb), "de")) * sort.dir;
+    });
+  }
+  $("thead").innerHTML = COLS.map(c => `<th data-k="${c.k}" ${c.nosort?'style="cursor:default"':''}>${c.t}</th>`).join("");
+  $("thead").onclick = e => {
+    const th = e.target.closest("th"); const c = th && COLS.find(x => x.k === th.dataset.k);
+    if (!c || c.nosort) return;
+    sort = { k:c.k, dir: sort.k === c.k ? -sort.dir : (c.k==="capacity_max"?-1:1) };
+    renderTable();
+  };
+  function renderTable() {
+    const rows = filtered(), total = allLocations().length;
+    if (current) $("resTitle").textContent = `Ergebnisse · ${fmt(current.params.capacityMin)}–${fmt(current.params.capacityMax)} Gäste`;
+    [...$("thead").children].forEach(th => th.classList.toggle("sorted", th.dataset.k === sort.k));
+    $("count").textContent = total ? `${rows.length} von ${total}` : "";
+    $("empty").classList.toggle("hidden", total > 0);
+    if (current && !total) $("empty").innerHTML = "<b>Noch keine Ergebnisse</b>Claude-Antworten oben einfügen, dann erscheinen die Locations hier.";
+    $("tbody").innerHTML = rows.map(l => {
+      const k = rowKey(l), st = statusMap[k] || "Neu";
+      const contact = [
+        l.phone ? `<a href="tel:${esc(l.phone.replace(/[^\d+]/g,""))}">${esc(l.phone)}</a>` : "",
+        l.email ? `<a href="mailto:${esc(l.email)}">${esc(l.email)}</a>` : "",
+        l.website ? `<a href="${esc(l.website)}" target="_blank" rel="noopener">${esc(host(l.website))}</a>` : "",
+        l.booking_url ? `<a href="${esc(l.booking_url)}" target="_blank" rel="noopener">→ Anfrageformular</a>` : "",
+        l.contact_person ? `<span class="conf">Ansprechpartner: ${esc(l.contact_person)}</span>` : "",
+      ].filter(Boolean).join("") || `<span class="na">keine Kontaktdaten gefunden</span>`;
+      const src = (l.sources||[]).slice(0,3).map((s,i) => `<a href="${esc(s)}" target="_blank" rel="noopener">Quelle ${i+1}</a>`).join("");
+      return `<tr>
+        <td class="name"><b>${esc(l.name)}</b><small>${esc(l.type)} · ${esc(l.city)}</small></td>
+        <td><div class="cap">${l.capacity_max != null ? fmt(l.capacity_max) : "?"}</div>
+            <span class="fit ${esc(l.capacity_fit)}">${esc(l.capacity_fit)}</span>
+            ${l.capacity_text ? `<div class="conf">${esc(l.capacity_text)}</div>` : ""}
+            <div class="conf">Sicherheit: ${esc(l.confidence)}</div></td>
+        <td class="contact">${contact}</td>
+        <td>${l.address ? esc(l.address) : '<span class="na">–</span>'}</td>
+        <td class="notes">${esc(l.notes||"")}<div class="src">${src}</div></td>
+        <td><select class="st" data-k="${esc(k)}" aria-label="Status ${esc(l.name)}">${STATUSES.map(s => `<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></td>
+      </tr>`;
+    }).join("");
+  }
+  $("tbody").onchange = e => { if (e.target.classList.contains("st")) { statusMap[e.target.dataset.k] = e.target.value; LS.set("alo_scout_status", statusMap); } };
+  ["filter","onlyFit","onlyMail"].forEach(id => $(id).addEventListener("input", renderTable));
+  function renderAll() { renderTasks(); renderTable(); }
+
+  // ---------- Export ----------
+  const EXPORT_HEAD = ["Name","Stadt","Typ","Kapazität (stehend)","Kapazität Angabe","Passt?","Telefon","E-Mail","Website","Anfrage-Link","Ansprechpartner","Adresse","Infos","Sicherheit","Status","Quellen"];
+  const exportRow = l => [l.name,l.city,l.type,l.capacity_max,l.capacity_text,l.capacity_fit,l.phone,l.email,l.website,l.booking_url,l.contact_person,l.address,l.notes,l.confidence,statusMap[rowKey(l)]||"Neu",(l.sources||[]).join(" ")];
+  $("copyBtn").onclick = async () => {
+    const rows = filtered(); if (!rows.length) return toast("Keine Daten zum Kopieren");
+    const clean = v => String(v ?? "").replace(/[\t\r\n]+/g, " ");
+    const tsv = [EXPORT_HEAD, ...rows.map(exportRow)].map(r => r.map(clean).join("\t")).join("\n");
+    toast(await copy(tsv) ? `${rows.length} Zeilen kopiert – in Excel/Numbers mit Cmd + V einfügen` : "Kopieren nicht möglich");
+  };
+  // Im Claude-Artifact läuft der Download über die "downloads"-Fähigkeit, auf der eigenen Website als normaler Download
+  let downloadsApi = null;
+  if (window.claude && typeof window.claude.use === "function") window.claude.use("downloads").then(d => { downloadsApi = d; }).catch(() => {});
+  $("csvBtn").onclick = async () => {
+    const rows = filtered(); if (!rows.length) return toast("Keine Daten zum Exportieren");
+    const cell = v => `"${String(v ?? "").replace(/"/g,'""')}"`;
+    const csv = "\ufeff" + [EXPORT_HEAD.map(cell).join(";"), ...rows.map(r => exportRow(r).map(cell).join(";"))].join("\r\n");
+    const filename = `ALO-Locations_${(current?.params.cities||[]).join("-").replace(/\s+/g,"")}_${new Date().toISOString().slice(0,10)}.csv`;
+    if (downloadsApi) {
+      try { await downloadsApi.save({ filename, data: csv }); } catch { toast("Download abgebrochen – alternativ „Für Excel kopieren“"); }
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], {type:"text/csv;charset=utf-8"}));
+    a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  };
+
+  // ---------- Start ----------
+  renderHistory();
+  const last = LS.get(HKEY, [])[0];
+  if (last) loadRun(last.id); else renderTable();
+})();
+</script>
+</body>
+</html>

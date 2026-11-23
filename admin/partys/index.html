@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Partys verwalten · ALÓ Admin</title>
+<style>
+:root{--bg:#F6F6F7;--card:#fff;--line:#E3E3E8;--ink:#17171B;--mute:#6B6B76;--acc:#17171B;--ok:#1F8A4C;--warn:#B42318;--r:10px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid #3B6EF6;outline-offset:2px}
+
+.top{display:flex;align-items:center;gap:16px;padding:10px 20px;background:var(--card);border-bottom:1px solid var(--line)}
+.brand{font-weight:700;color:var(--ink);text-decoration:none}
+.top nav{display:flex;gap:2px}
+.top nav a{padding:6px 10px;border-radius:6px;color:var(--mute);text-decoration:none;font-size:14px}
+.top nav a[aria-current="page"]{background:var(--bg);color:var(--ink);font-weight:600}
+.ghost{margin-left:auto;background:none;border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer;color:var(--mute);font-size:13px}
+.demo{background:#FFF7D6;color:#6B5300;text-align:center;font-size:13px;padding:6px 16px;border-bottom:1px solid #F0E2A0}
+
+main{max-width:1000px;margin:0 auto;padding:24px 20px 60px}
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+h1{font-size:24px;margin:0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:8px;padding:9px 16px;font-weight:600;cursor:pointer;font-size:14px}
+.btn-main{background:var(--acc);color:#fff}
+.btn-main:hover{background:#000}
+.btn-sec{background:var(--card);border-color:var(--line)}
+.btn-sec:hover{border-color:#C9C9D1}
+.btn-danger{background:var(--warn);color:#fff}
+.btn:disabled{opacity:.55;cursor:wait}
+
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.tabs{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+.tabs button{border:0;background:none;padding:7px 14px;font-weight:600;color:var(--mute);cursor:pointer;font-size:14px}
+.tabs button+button{border-left:1px solid var(--line)}
+.tabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+.tabs .n{margin-left:6px;font-weight:400;opacity:.75}
+.filters{display:flex;gap:8px}
+.filters input,.filters select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:14px}
+.filters input{width:220px}
+
+/* Tabelle */
+.tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tbl th{text-align:left;font-size:12px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;padding:9px 12px;border-bottom:1px solid var(--line);background:#FAFAFB}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr.off td:not(.c-act){color:var(--mute)}
+.c-img{width:64px}
+.c-img img,.c-img .noimg{display:block;width:56px;height:40px;border-radius:5px;object-fit:cover;background:#ECECF0}
+.c-date{white-space:nowrap;font-variant-numeric:tabular-nums}
+.c-date small{display:block;color:var(--mute)}
+.t{font-weight:600}
+.sub{color:var(--mute);font-size:13px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.live{background:#E3F4EA;color:var(--ok)}
+.pill.hide{background:#EEEEF2;color:var(--mute)}
+.pill.past{background:#EEEEF2;color:var(--mute)}
+.pill.sold{background:#FDE8E7;color:var(--warn);margin-left:4px}
+.c-act{white-space:nowrap;text-align:right}
+.c-act button{background:none;border:1px solid var(--line);border-radius:6px;padding:5px 9px;font-size:13px;cursor:pointer;margin-left:4px}
+.c-act button:hover{border-color:#C9C9D1;background:#FAFAFB}
+.c-act .del{color:var(--warn)}
+@media (max-width:720px){
+  .filters{width:100%}.filters input{flex:1;width:auto;min-width:0}
+  .tbl thead{display:none}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr{display:grid;grid-template-columns:64px 1fr auto;gap:2px 10px;padding:12px;border-bottom:1px solid var(--line)}
+  .tbl tr:last-child{border-bottom:0}
+  .tbl td{border:0;padding:0}
+  .c-img{grid-row:span 2}
+  .c-date{grid-column:2}.c-party{grid-column:2}.c-status{grid-column:3;grid-row:1;text-align:right}
+  .c-act{grid-column:1/-1;display:flex!important;gap:6px;margin-top:8px}
+  .c-act button{flex:1;margin:0;padding:6px 2px;min-width:0}
+}
+
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:var(--r);padding:36px 20px;text-align:center;color:var(--mute)}
+.empty b{display:block;color:var(--ink);margin-bottom:4px}
+
+.login{min-height:calc(100vh - 50px);display:grid;place-items:center;padding:24px}
+.login form{width:min(340px,100%);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
+.login h1{margin-bottom:4px}
+.login p{color:var(--mute);margin:0 0 16px;font-size:14px}
+
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label,.lbl{font-size:13px;font-weight:600}
+.field small{color:var(--mute);font-size:12px;font-weight:400}
+.in{width:100%;background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 10px}
+.in:focus{border-color:#3B6EF6;outline:none}
+textarea.in{min-height:90px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1.3fr .7fr;gap:10px}
+@media (max-width:560px){.row,.row3{grid-template-columns:1fr}}
+.err{color:var(--warn);font-size:13px;min-height:1.2em;margin:4px 0 0}
+.check{display:flex;gap:8px;align-items:flex-start;cursor:pointer;font-weight:400!important}
+.check input{width:16px;height:16px;margin:2px 0 0}
+.check span{color:var(--mute);font-size:12.5px;display:block}
+
+dialog{border:0;padding:0;background:transparent;color:inherit;max-width:none;max-height:none}
+dialog::backdrop{background:rgba(20,20,25,.45)}
+.sheet{width:min(600px,100vw);max-height:min(92vh,100dvh);overflow:auto;background:var(--card);border-radius:12px;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.sheet-head{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--card);border-bottom:1px solid var(--line)}
+.sheet-head h2{margin:0;font-size:18px}
+.x{background:none;border:0;width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:20px;color:var(--mute)}
+.sheet-body{padding:16px 18px}
+.sheet-foot{position:sticky;bottom:0;display:flex;gap:8px;justify-content:flex-end;padding:12px 18px;background:var(--card);border-top:1px solid var(--line)}
+@media (max-width:640px){
+  dialog.edit{margin:0;width:100%;height:100%}
+  dialog.edit .sheet{width:100vw;height:100dvh;max-height:none;border-radius:0}
+}
+
+.drop{position:relative;border:1.5px dashed #C9C9D1;border-radius:8px;padding:18px;text-align:center;cursor:pointer;color:var(--mute);font-size:14px}
+.drop:hover,.drop.over{border-color:#3B6EF6;background:#F4F7FF}
+.drop b{color:var(--ink)}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.preview{position:relative;display:flex;gap:12px;align-items:center}
+.preview img{width:120px;height:80px;object-fit:cover;border-radius:6px;border:1px solid var(--line);background:#ECECF0}
+.preview .pv-acts{display:flex;gap:6px}
+.preview .pv-acts button{background:none;border:1px solid var(--line);border-radius:6px;padding:5px 10px;font-size:13px;cursor:pointer}
+.busy{font-size:13px;color:var(--mute)}
+
+.confirm .sheet{width:min(420px,92vw)}
+.confirm p{margin:0 0 6px}
+
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);opacity:0;background:var(--ink);color:#fff;padding:9px 16px;border-radius:8px;font-size:14px;transition:opacity .2s;z-index:100;pointer-events:none}
+.toast.on{opacity:1}
+.toast.bad{background:var(--warn)}
+.spin{color:var(--mute);text-align:center;padding:40px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="../">ALÓ Admin</a>
+  <nav aria-label="Admin-Bereiche">
+    <a href="../partys/" aria-current="page">Partys</a>
+    <a href="../locations/">Locations</a>
+  </nav>
+  <button class="ghost" id="logout" type="button" hidden>Abmelden</button>
+</header>
+<div class="demo" id="demo" hidden>Demo-Modus: Die Daten bleiben nur in diesem Browser. Auf der Live-Seite speichert alles zentral bei Netlify.</div>
+
+<!-- Login -->
+<section class="login" id="v-login" hidden>
+  <form id="f-login" autocomplete="on">
+    <h1>ALÓ Admin</h1>
+    <p>Melde dich an, um deine Partys zu verwalten.</p>
+    <div class="field">
+      <label for="pw">Passwort</label>
+      <input class="in" id="pw" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <button class="btn btn-main" style="width:100%" type="submit">Anmelden</button>
+    <p class="err" id="login-err" role="alert"></p>
+  </form>
+</section>
+
+<!-- Übersicht -->
+<main id="v-app" hidden>
+  <div class="head">
+    <h1>Partys</h1>
+    <button class="btn btn-main" id="neu" type="button">+ Neue Party</button>
+  </div>
+
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="Ansicht">
+      <button role="tab" id="t-kommend" aria-selected="true" data-tab="kommend">Kommend<span class="n" id="n-kommend">0</span></button>
+      <button role="tab" id="t-archiv" aria-selected="false" data-tab="archiv">Archiv<span class="n" id="n-archiv">0</span></button>
+    </div>
+    <div class="filters">
+      <label class="sr" for="suche">Suchen</label>
+      <input id="suche" type="search" placeholder="Suchen: Titel, Stadt, Location …">
+      <label class="sr" for="f-reihe">Partyreihe</label>
+      <select id="f-reihe"><option value="">Alle Reihen</option><option>ALÓ</option><option>Pasaporte</option><option>Sonstige</option></select>
+    </div>
+  </div>
+
+  <div id="liste" aria-live="polite"><div class="spin">Lädt …</div></div>
+</main>
+
+<!-- Editor -->
+<dialog class="edit" id="d-edit" aria-labelledby="edit-title">
+  <form class="sheet" id="f-edit" novalidate>
+    <div class="sheet-head">
+      <h2 id="edit-title">Neue Party</h2>
+      <button class="x" type="button" data-close aria-label="Schließen">×</button>
+    </div>
+    <div class="sheet-body">
+      <div class="field">
+        <label for="e-titel">Titel *</label>
+        <input class="in" id="e-titel" maxlength="120" required placeholder="z. B. Pasaporte XXL Halloween">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="e-reihe">Partyreihe</label>
+          <select class="in" id="e-reihe"><option>ALÓ</option><option>Pasaporte</option><option>Sonstige</option></select>
+        </div>
+        <div class="field">
+          <label for="e-stadt">Stadt *</label>
+          <input class="in" id="e-stadt" maxlength="80" required placeholder="z. B. Frankfurt am Main">
+        </div>
+      </div>
+      <div class="row3">
+        <div class="field">
+          <label for="e-datum">Datum *</label>
+          <input class="in" id="e-datum" type="date" required>
+        </div>
+        <div class="field">
+          <label for="e-zeit">Beginn</label>
+          <input class="in" id="e-zeit" type="time">
+        </div>
+      </div>
+      <div class="field">
+        <label for="e-location">Location</label>
+        <input class="in" id="e-location" maxlength="120" placeholder="z. B. Docks">
+      </div>
+      <div class="field">
+        <span class="lbl">Bild / Flyer</span>
+        <div class="drop" id="drop">
+          <b>Bild auswählen</b> oder hierher ziehen
+          <input id="bild-in" type="file" accept="image/*" aria-label="Bild auswählen">
+        </div>
+        <div class="preview" id="preview" hidden>
+          <img id="pv-img" alt="">
+          <div class="pv-acts"><button type="button" id="pv-change">Ändern</button><button type="button" id="pv-del">Entfernen</button></div>
+          <span class="busy" id="pv-busy" hidden>Lädt hoch …</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="e-alt">Bildbeschreibung <small>(optional, für Google)</small></label>
+        <input class="in" id="e-alt" maxlength="160">
+      </div>
+
+      <div class="field">
+        <label for="e-text">Beschreibung</label>
+        <textarea class="in" id="e-text" maxlength="1200" placeholder="DJs, Live-Acts, Dresscode, Floors …"></textarea>
+      </div>
+      <div class="field">
+        <label for="e-ticket">Ticket-Link</label>
+        <input class="in" id="e-ticket" type="url" maxlength="500" placeholder="https://www.tickettailor.com/…">
+        <small>Leer lassen, wenn es (noch) keine Tickets gibt.</small>
+      </div>
+      <div class="field">
+        <label class="check"><input type="checkbox" id="e-sichtbar" checked><div>Auf der Website anzeigen<span>Aus = von der Website genommen, bleibt aber gespeichert</span></div></label>
+      </div>
+      <div class="field">
+        <label class="check"><input type="checkbox" id="e-sold"><div>Ausverkauft<span>Ticket-Button wird ausgeblendet</span></div></label>
+      </div>
+      <p class="err" id="edit-err" role="alert"></p>
+    </div>
+    <div class="sheet-foot">
+      <button class="btn btn-sec" type="button" data-close>Abbrechen</button>
+      <button class="btn btn-main" type="submit" id="save">Speichern</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Löschen bestätigen -->
+<dialog class="confirm" id="d-del" aria-labelledby="del-title">
+  <div class="sheet">
+    <div class="sheet-head"><h2 id="del-title">Löschen?</h2><button class="x" type="button" data-close aria-label="Schließen">×</button></div>
+    <div class="sheet-body">
+      <p><b id="del-name"></b> wird endgültig gelöscht, auch aus dem Archiv.</p>
+      <p style="color:var(--mute);font-size:13.5px">Nur von der Website nehmen? Dann lieber „Ausblenden“.</p>
+    </div>
+    <div class="sheet-foot">
+      <button class="btn btn-sec" type="button" data-close>Abbrechen</button>
+      <button class="btn btn-sec" type="button" id="del-hide">Nur ausblenden</button>
+      <button class="btn btn-danger" type="button" id="del-ok">Endgültig löschen</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+"use strict";
+
+// ================= API (live = Netlify, sonst Demo im Browser) =================
+const DEMO = location.protocol === "file:" || new URLSearchParams(location.search).has("demo");
+const DEMO_KEY = "alo-partys-demo-v1";
+
+const live = {
+  async req(pfad, opt = {}) {
+    const r = await fetch(pfad, { credentials: "same-origin", ...opt });
+    let d = {};
+    try { d = await r.json(); } catch {}
+    if (r.status === 401 && pfad !== "/api/admin/login") { zeigeLogin("Sitzung abgelaufen. Bitte neu anmelden."); throw new Error("abgemeldet"); }
+    if (!r.ok) throw new Error(d.fehler || `Server-Fehler (${r.status})`);
+    return d;
+  },
+  async session() { try { await this.req("/api/admin/session"); return true; } catch { return false; } },
+  login(pw) { return this.req("/api/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ passwort: pw }) }); },
+  logout() { return this.req("/api/admin/logout", { method: "POST" }); },
+  async liste() { return (await this.req("/api/admin/partys")).partys; },
+  async speichern(p) { return (await this.req("/api/admin/partys", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p) })).party; },
+  loeschen(id) { return this.req("/api/admin/partys?id=" + encodeURIComponent(id), { method: "DELETE" }); },
+  hochladen(blob) { return this.req("/api/admin/bild", { method: "POST", headers: { "Content-Type": blob.type }, body: blob }); },
+  bildUrl(key) { return key ? "/api/bild/" + key : ""; },
+};
+
+const demo = {
+  lade() { try { return JSON.parse(localStorage.getItem(DEMO_KEY)) || { partys: [], bilder: {} }; } catch { return { partys: [], bilder: {} }; } },
+  schreibe(s) {
+    try { localStorage.setItem(DEMO_KEY, JSON.stringify(s)); }
+    catch { throw new Error("Demo-Speicher voll. Lösche ein paar Demo-Partys."); }
+  },
+  async session() { return sessionStorage.getItem("alo-demo-login") === "1"; },
+  async login(pw) { if (!pw) throw new Error("Passwort falsch."); sessionStorage.setItem("alo-demo-login", "1"); return { ok: true }; },
+  async logout() { sessionStorage.removeItem("alo-demo-login"); },
+  async liste() { return this.lade().partys; },
+  async speichern(p) {
+    const s = this.lade(), jetzt = new Date().toISOString();
+    if (!p.titel || !p.datum || !p.stadt) throw new Error("Bitte Titel, Datum und Stadt ausfüllen.");
+    const i = p.id ? s.partys.findIndex(x => x.id === p.id) : -1;
+    let party;
+    if (i >= 0) { const alt = s.partys[i].bild; party = { ...s.partys[i], ...p, geaendert: jetzt }; s.partys[i] = party; if (alt && alt !== p.bild && !s.partys.some(x => x.bild === alt)) delete s.bilder[alt]; }
+    else { party = { ...p, id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), erstellt: jetzt, geaendert: jetzt }; s.partys.push(party); }
+    this.schreibe(s); return party;
+  },
+  async loeschen(id) {
+    const s = this.lade(), p = s.partys.find(x => x.id === id);
+    s.partys = s.partys.filter(x => x.id !== id);
+    if (p && p.bild && !s.partys.some(x => x.bild === p.bild)) delete s.bilder[p.bild];
+    this.schreibe(s);
+  },
+  async hochladen(blob) {
+    const url = await new Promise((ok, no) => { const fr = new FileReader(); fr.onload = () => ok(fr.result); fr.onerror = no; fr.readAsDataURL(blob); });
+    const key = "demo-" + Date.now().toString(36) + "." + (blob.type.split("/")[1] || "jpg");
+    const s = this.lade(); s.bilder[key] = url; this.schreibe(s);
+    return { bild: key };
+  },
+  bildUrl(key) { return key ? (this.lade().bilder[key] || "") : ""; },
+};
+
+const api = DEMO ? demo : live;
+
+// ================= Zustand & Hilfen =================
+const $ = (s, el = document) => el.querySelector(s);
+let partys = [];
+let tab = "kommend";
+let bearbeite = null; // Party-Objekt im Editor
+let bildKey = "";
+
+const heute = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Berlin", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const dt = iso => new Date(iso + "T12:00:00");
+const fmtLang = iso => dt(iso).toLocaleDateString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit", year: "numeric" });
+
+let toastT;
+function toast(msg, bad = false) {
+  const t = $("#toast"); t.textContent = msg; t.classList.toggle("bad", bad); t.classList.add("on");
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 2800);
+}
+
+// ================= Ansichten =================
+function zeigeLogin(msg = "") {
+  $("#v-app").hidden = true; $("#logout").hidden = true; $("#v-login").hidden = false;
+  $("#login-err").textContent = msg;
+  document.querySelectorAll("dialog[open]").forEach(d => d.close());
+  setTimeout(() => $("#pw").focus(), 30);
+}
+async function zeigeApp() {
+  $("#v-login").hidden = true; $("#v-app").hidden = false; $("#logout").hidden = false;
+  await laden();
+}
+async function laden() {
+  try { partys = await api.liste(); render(); }
+  catch (e) { if (e.message !== "abgemeldet") $("#liste").innerHTML = `<div class="empty"><b>Fehler</b>${esc(e.message)}</div>`; }
+}
+
+function render() {
+  const h = heute();
+  const kommend = partys.filter(p => p.datum >= h).sort((a, b) => (a.datum + (a.zeit||"")).localeCompare(b.datum + (b.zeit||"")));
+  const archiv = partys.filter(p => p.datum < h).sort((a, b) => (b.datum + (b.zeit||"")).localeCompare(a.datum + (a.zeit||"")));
+  $("#n-kommend").textContent = kommend.length; $("#n-archiv").textContent = archiv.length;
+
+  const q = $("#suche").value.trim().toLowerCase();
+  const r = $("#f-reihe").value;
+  const liste = (tab === "kommend" ? kommend : archiv).filter(p =>
+    (!r || p.reihe === r) && (!q || [p.titel, p.stadt, p.location, p.beschreibung].join(" ").toLowerCase().includes(q)));
+
+  if (!liste.length) {
+    const leer = q || r ? ["Nichts gefunden", "Passe die Suche oder den Filter an."]
+      : tab === "kommend" ? ["Noch keine Partys geplant", "Leg deine nächste Party mit „+ Neue Party“ an."]
+      : ["Archiv ist leer", "Vergangene Partys landen hier automatisch."];
+    $("#liste").innerHTML = `<div class="empty"><b>${leer[0]}</b>${leer[1]}</div>`;
+    return;
+  }
+
+  $("#liste").innerHTML = `<table class="tbl"><thead><tr><th></th><th>Datum</th><th>Party</th><th>Status</th><th></th></tr></thead><tbody>${liste.map(p => zeile(p, tab === "archiv")).join("")}</tbody></table>`;
+}
+
+function zeile(p, vergangen) {
+  const img = api.bildUrl(p.bild);
+  const sichtbar = p.sichtbar !== false;
+  const status = (vergangen ? (sichtbar ? `<span class="pill past">Vergangen</span>` : `<span class="pill hide">Ausgeblendet</span>`)
+    : sichtbar ? `<span class="pill live">Online</span>` : `<span class="pill hide">Ausgeblendet</span>`)
+    + (p.ausverkauft && !vergangen ? `<span class="pill sold">Ausverkauft</span>` : "");
+  const ort = [p.stadt, p.location].filter(Boolean).map(esc).join(" · ");
+  return `<tr class="${sichtbar ? "" : "off"}" data-id="${esc(p.id)}">
+    <td class="c-img">${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : `<span class="noimg"></span>`}</td>
+    <td class="c-date">${esc(fmtLang(p.datum))}${p.zeit ? `<small>${esc(p.zeit)} Uhr</small>` : ""}</td>
+    <td class="c-party"><div class="t">${esc(p.titel)}</div><div class="sub">${esc(p.reihe)} · ${ort}</div></td>
+    <td class="c-status">${status}</td>
+    <td class="c-act">
+      <button type="button" data-a="edit">Bearbeiten</button><button type="button" data-a="toggle">${sichtbar ? "Ausblenden" : "Einblenden"}</button><button type="button" data-a="dup" title="Als Vorlage für eine neue Party">Duplizieren</button><button type="button" class="del" data-a="del" aria-label="Löschen: ${esc(p.titel)}">Löschen</button>
+    </td>
+  </tr>`;
+}
+
+// ================= Editor =================
+const dEdit = $("#d-edit");
+function oeffneEditor(p = null, kopie = false) {
+  bearbeite = p && !kopie ? p : null;
+  const v = p || { reihe: "ALÓ", sichtbar: true, ticketUrl: "https://www.tickettailor.com/all-tickets/aloevents/" };
+  $("#edit-title").textContent = bearbeite ? "Party bearbeiten" : kopie ? "Party duplizieren" : "Neue Party";
+  $("#e-titel").value = v.titel || "";
+  $("#e-reihe").value = v.reihe || "ALÓ";
+  $("#e-stadt").value = v.stadt || "";
+  $("#e-datum").value = kopie ? "" : (v.datum || "");
+  $("#e-zeit").value = v.zeit || "";
+  $("#e-location").value = v.location || "";
+  $("#e-text").value = v.beschreibung || "";
+  $("#e-ticket").value = v.ticketUrl || "";
+  $("#e-alt").value = v.bildAlt || "";
+  $("#e-sichtbar").checked = v.sichtbar !== false;
+  $("#e-sold").checked = kopie ? false : !!v.ausverkauft;
+  $("#edit-err").textContent = "";
+  setzeBild(v.bild || "");
+  dEdit.showModal();
+  $("#f-edit").scrollTop = 0;
+  setTimeout(() => (kopie ? $("#e-datum") : $("#e-titel")).focus(), 30);
+}
+
+function setzeBild(key) {
+  bildKey = key;
+  const url = api.bildUrl(key);
+  $("#preview").hidden = !url; $("#drop").hidden = !!url;
+  if (url) $("#pv-img").src = url; else $("#pv-img").removeAttribute("src");
+}
+
+// Bild verkleinern (max. 1600 px, WebP, sonst JPEG)
+async function verkleinere(file) {
+  if (!file.type.startsWith("image/") && !/\.(heic|heif)$/i.test(file.name)) throw new Error("Das ist kein Bild.");
+  let quelle;
+  try { quelle = await createImageBitmap(file, { imageOrientation: "from-image" }); }
+  catch {
+    quelle = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => no(new Error("Dieses Bildformat kann der Browser nicht öffnen. Bitte als JPG speichern.")); i.src = URL.createObjectURL(file); });
+  }
+  const max = 1600, w = quelle.width, h = quelle.height, f = Math.min(1, max / Math.max(w, h));
+  const c = document.createElement("canvas"); c.width = Math.round(w * f); c.height = Math.round(h * f);
+  c.getContext("2d").drawImage(quelle, 0, 0, c.width, c.height);
+  const zuBlob = (typ, q) => new Promise(ok => c.toBlob(ok, typ, q));
+  let blob = await zuBlob("image/webp", 0.82);
+  if (!blob || blob.type !== "image/webp") blob = await zuBlob("image/jpeg", 0.85);
+  if (!blob) throw new Error("Bild konnte nicht verarbeitet werden.");
+  return blob;
+}
+
+async function bildHochladen(file) {
+  if (!file) return;
+  $("#edit-err").textContent = "";
+  $("#preview").hidden = false; $("#drop").hidden = true; $("#pv-busy").hidden = false; $("#save").disabled = true;
+  try {
+    const blob = await verkleinere(file);
+    $("#pv-img").src = URL.createObjectURL(blob);
+    const r = await api.hochladen(blob);
+    bildKey = r.bild;
+  } catch (e) {
+    if (e.message !== "abgemeldet") { $("#edit-err").textContent = e.message; setzeBild(bildKey); }
+  } finally {
+    $("#pv-busy").hidden = true; $("#save").disabled = false; $("#bild-in").value = "";
+  }
+}
+
+$("#bild-in").addEventListener("change", e => bildHochladen(e.target.files[0]));
+const drop = $("#drop");
+["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, () => drop.classList.remove("over")));
+drop.addEventListener("drop", e => { e.preventDefault(); bildHochladen(e.dataTransfer.files[0]); });
+$("#pv-change").addEventListener("click", () => $("#bild-in").click());
+$("#pv-del").addEventListener("click", () => setzeBild(""));
+
+$("#f-edit").addEventListener("submit", async e => {
+  e.preventDefault();
+  const err = $("#edit-err");
+  const p = {
+    id: bearbeite?.id,
+    titel: $("#e-titel").value.trim(),
+    reihe: $("#e-reihe").value,
+    stadt: $("#e-stadt").value.trim(),
+    datum: $("#e-datum").value,
+    zeit: $("#e-zeit").value,
+    location: $("#e-location").value.trim(),
+    beschreibung: $("#e-text").value.trim(),
+    ticketUrl: $("#e-ticket").value.trim(),
+    bild: bildKey,
+    bildAlt: $("#e-alt").value.trim(),
+    sichtbar: $("#e-sichtbar").checked,
+    ausverkauft: $("#e-sold").checked,
+  };
+  const fehlt = [!p.titel && "Titel", !p.datum && "Datum", !p.stadt && "Stadt"].filter(Boolean);
+  if (fehlt.length) { err.textContent = "Bitte noch ausfüllen: " + fehlt.join(", ") + "."; return; }
+  if (p.ticketUrl && !/^https?:\/\//i.test(p.ticketUrl)) p.ticketUrl = "https://" + p.ticketUrl;
+  const btn = $("#save"); btn.disabled = true; btn.textContent = "Speichert …";
+  try {
+    await api.speichern(p);
+    dEdit.close();
+    const vergangen = p.datum < heute();
+    tab = vergangen ? "archiv" : "kommend"; setTab();
+    await laden();
+    toast(p.sichtbar && !vergangen ? "Gespeichert und auf der Website sichtbar" : "Gespeichert");
+  } catch (e2) {
+    if (e2.message !== "abgemeldet") err.textContent = e2.message;
+  } finally { btn.disabled = false; btn.textContent = "Speichern"; }
+});
+
+// ================= Aktionen auf Karten =================
+const dDel = $("#d-del");
+let loeschId = null;
+
+$("#liste").addEventListener("click", async e => {
+  const b = e.target.closest("button[data-a]"); if (!b) return;
+  const id = b.closest("tr").dataset.id;
+  const p = partys.find(x => x.id === id); if (!p) return;
+  const a = b.dataset.a;
+  if (a === "edit") oeffneEditor(p);
+  if (a === "dup") oeffneEditor(p, true);
+  if (a === "toggle") await sichtbarkeit(p, p.sichtbar === false);
+  if (a === "del") { loeschId = id; $("#del-name").textContent = p.titel; $("#del-hide").hidden = p.sichtbar === false; dDel.showModal(); }
+});
+
+async function sichtbarkeit(p, an) {
+  try {
+    await api.speichern({ ...p, sichtbar: an });
+    await laden();
+    toast(an ? "Wieder auf der Website" : "Von der Website genommen");
+  } catch (e) { if (e.message !== "abgemeldet") toast(e.message, true); }
+}
+
+$("#del-ok").addEventListener("click", async () => {
+  const btn = $("#del-ok"); btn.disabled = true;
+  try { await api.loeschen(loeschId); dDel.close(); await laden(); toast("Gelöscht"); }
+  catch (e) { if (e.message !== "abgemeldet") toast(e.message, true); }
+  finally { btn.disabled = false; }
+});
+$("#del-hide").addEventListener("click", async () => {
+  const p = partys.find(x => x.id === loeschId); dDel.close();
+  if (p) await sichtbarkeit(p, false);
+});
+
+document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", () => b.closest("dialog").close()));
+document.querySelectorAll("dialog").forEach(d => d.addEventListener("click", e => { if (e.target === d) d.close(); }));
+
+// ================= Tabs, Filter, Login =================
+function setTab() {
+  document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === tab)));
+}
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => { tab = b.dataset.tab; setTab(); render(); }));
+$("#suche").addEventListener("input", render);
+$("#f-reihe").addEventListener("change", render);
+$("#neu").addEventListener("click", () => oeffneEditor());
+
+$("#f-login").addEventListener("submit", async e => {
+  e.preventDefault();
+  const btn = e.submitter || $("#f-login button"); btn.disabled = true;
+  $("#login-err").textContent = "";
+  try { await api.login($("#pw").value); $("#pw").value = ""; await zeigeApp(); }
+  catch (e2) { $("#login-err").textContent = e2.message === "Failed to fetch" ? "Server nicht erreichbar." : e2.message; }
+  finally { btn.disabled = false; }
+});
+$("#logout").addEventListener("click", async () => { try { await api.logout(); } catch {} zeigeLogin(); });
+
+// Start
+$("#demo").hidden = !DEMO;
+api.session().then(ok => ok ? zeigeApp() : zeigeLogin());
+})();
+</script>
+</body>
+</html>
