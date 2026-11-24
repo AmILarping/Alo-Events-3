@@ -218,6 +218,10 @@ dialog::backdrop{background:rgba(20,20,25,.45)}
         <input class="in" id="e-location" maxlength="120" placeholder="z. B. Docks">
       </div>
       <div class="field">
+        <label for="e-maxgaeste">Max. Gäste</label>
+        <input class="in" id="e-maxgaeste" type="number" min="1" max="100000" step="1" inputmode="numeric" placeholder="z. B. 500">
+      </div>
+      <div class="field">
         <span class="lbl">Bild / Flyer</span>
         <div class="drop" id="drop">
           <b>Bild auswählen</b> oder hierher ziehen
@@ -402,10 +406,11 @@ function zeile(p, vergangen) {
     : sichtbar ? `<span class="pill live">Online</span>` : `<span class="pill hide">Ausgeblendet</span>`)
     + (p.ausverkauft && !vergangen ? `<span class="pill sold">Ausverkauft</span>` : "");
   const ort = [p.stadt, p.location].filter(Boolean).map(esc).join(" · ");
+  const gaeste = p.maxGaeste ? ` · max. ${esc(String(p.maxGaeste))} Gäste` : "";
   return `<tr class="${sichtbar ? "" : "off"}" data-id="${esc(p.id)}">
     <td class="c-img">${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : `<span class="noimg"></span>`}</td>
     <td class="c-date">${esc(fmtLang(p.datum))}${p.zeit ? `<small>${esc(p.zeit)} Uhr</small>` : ""}</td>
-    <td class="c-party"><div class="t">${esc(p.titel)}</div><div class="sub">${esc(p.reihe)} · ${ort}</div></td>
+    <td class="c-party"><div class="t">${esc(p.titel)}</div><div class="sub">${esc(p.reihe)} · ${ort}${gaeste}</div></td>
     <td class="c-status">${status}</td>
     <td class="c-act">
       <button type="button" data-a="edit">Bearbeiten</button><button type="button" data-a="toggle">${sichtbar ? "Ausblenden" : "Einblenden"}</button><button type="button" data-a="dup" title="Als Vorlage für eine neue Party">Duplizieren</button><button type="button" class="del" data-a="del" aria-label="Löschen: ${esc(p.titel)}">Löschen</button>
@@ -425,6 +430,7 @@ function oeffneEditor(p = null, kopie = false) {
   $("#e-datum").value = kopie ? "" : (v.datum || "");
   $("#e-zeit").value = v.zeit || "";
   $("#e-location").value = v.location || "";
+  $("#e-maxgaeste").value = v.maxGaeste || "";
   $("#e-text").value = v.beschreibung || "";
   $("#e-ticket").value = v.ticketUrl || "";
   $("#e-alt").value = v.bildAlt || "";
@@ -497,6 +503,7 @@ $("#f-edit").addEventListener("submit", async e => {
     datum: $("#e-datum").value,
     zeit: $("#e-zeit").value,
     location: $("#e-location").value.trim(),
+    maxGaeste: $("#e-maxgaeste").value.trim() === "" ? null : Number($("#e-maxgaeste").value),
     beschreibung: $("#e-text").value.trim(),
     ticketUrl: $("#e-ticket").value.trim(),
     bild: bildKey,

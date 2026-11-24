@@ -111,6 +111,12 @@ function bereinige(e) {
   if (ticketUrl && !/^https?:\/\/[^\s]+$/i.test(ticketUrl)) throw new Error("Der Ticket-Link muss mit https:// beginnen.");
   const bild = text(e.bild, 80);
   if (bild && !BILD_KEY.test(bild)) throw new Error("Ungültiges Bild.");
+  let maxGaeste = null;
+  if (e.maxGaeste !== undefined && e.maxGaeste !== null && e.maxGaeste !== "") {
+    const n = Number(e.maxGaeste);
+    if (!Number.isInteger(n) || n < 1 || n > 100000) throw new Error("Max. Gäste bitte als ganze Zahl zwischen 1 und 100000 eintragen.");
+    maxGaeste = n;
+  }
   return {
     titel,
     reihe: REIHEN.includes(e.reihe) ? e.reihe : "Sonstige",
@@ -124,6 +130,7 @@ function bereinige(e) {
     bildAlt: text(e.bildAlt, 160),
     sichtbar: e.sichtbar !== false,
     ausverkauft: e.ausverkauft === true,
+    maxGaeste,
   };
 }
 
