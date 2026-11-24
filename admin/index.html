@@ -6,23 +6,88 @@
 <meta name="robots" content="noindex, nofollow">
 <title>ALÓ Admin</title>
 <style>
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:#F6F6F7;color:#17171B;font:400 15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px;box-sizing:border-box}
-h1{font-size:24px;margin:0 0 16px}
+:root{--bg:#F6F6F7;--card:#fff;--line:#E3E3E8;--ink:#17171B;--mute:#6B6B76;--warn:#B42318}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:400 15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px}
+h1{font-size:24px;margin:0 0 6px}
 .wrap{width:min(560px,100%)}
+.lead{color:var(--mute);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px;max-width:420px}
+label{display:block;font-weight:600;margin:0 0 6px}
+input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid var(--ink);outline-offset:1px}
+button.main{margin-top:14px;width:100%;padding:12px;border:0;border-radius:8px;background:var(--ink);color:#fff;font:inherit;font-weight:600;cursor:pointer}
+button.main:disabled{opacity:.5;cursor:wait}
+.err{color:var(--warn);min-height:1.4em;margin:10px 0 0;font-size:14px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-a{display:block;padding:18px;border-radius:10px;background:#fff;border:1px solid #E3E3E8;color:inherit;text-decoration:none}
-a:hover{border-color:#17171B}
-a b{display:block;font-size:17px;margin-bottom:4px}
-a span{color:#6B6B76;font-size:14px}
+.tiles a{display:block;padding:18px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:inherit;text-decoration:none}
+.tiles a:hover{border-color:var(--ink)}
+.tiles a b{display:block;font-size:17px;margin-bottom:4px}
+.tiles a span{color:var(--mute);font-size:14px}
+.out{margin-top:16px;background:none;border:1px solid var(--line);border-radius:6px;padding:6px 12px;color:var(--mute);font:inherit;font-size:13px;cursor:pointer}
+.demo{margin-top:14px;font-size:13px;color:var(--mute)}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>ALÓ Admin</h1>
-  <div class="tiles">
-    <a href="partys/"><b>Partys</b><span>Termine mit Bild anlegen, ausblenden, löschen. Archiv aller vergangenen Partys.</span></a>
-    <a href="locations/"><b>Locations</b><span>Passende Locations und Ansprechpartner pro Stadt finden.</span></a>
-  </div>
+
+  <section id="v-login" hidden>
+    <p class="lead">Melde dich an, um Partys und Locations zu verwalten.</p>
+    <form class="card" id="f-login" autocomplete="on">
+      <label for="pw">Passwort</label>
+      <input id="pw" name="password" type="password" autocomplete="current-password" required>
+      <button class="main" type="submit" id="b-login">Anmelden</button>
+      <p class="err" id="err" role="alert"></p>
+    </form>
+  </section>
+
+  <section id="v-wahl" hidden>
+    <p class="lead">Was möchtest du bearbeiten?</p>
+    <div class="tiles">
+      <a href="partys/" id="l-partys"><b>Partys</b><span>Termine mit Bild anlegen, ausblenden, löschen. Archiv aller vergangenen Partys.</span></a>
+      <a href="locations/" id="l-locations"><b>Locations</b><span>Passende Locations und Ansprechpartner pro Stadt finden.</span></a>
+    </div>
+    <button class="out" id="b-logout" type="button">Abmelden</button>
+    <p class="demo" id="demo" hidden>Demo-Modus: Die Anmeldung gilt nur in diesem Browser.</p>
+  </section>
 </div>
+<script>
+"use strict";
+const $ = (s) => document.querySelector(s);
+const FILE = location.protocol === "file:";
+const DEMO = FILE || new URLSearchParams(location.search).has("demo");
+const SUFFIX = new URLSearchParams(location.search).has("demo") ? "?demo" : "";
+
+async function session() {
+  if (DEMO) return sessionStorage.getItem("alo-demo-login") === "1";
+  try { return (await fetch("/api/admin/session", { credentials: "same-origin" })).ok; } catch { return false; }
+}
+async function login(pw) {
+  if (DEMO) { if (!pw) throw new Error("Passwort falsch."); sessionStorage.setItem("alo-demo-login", "1"); return; }
+  const r = await fetch("/api/admin/login", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ passwort: pw }) });
+  let d = {}; try { d = await r.json(); } catch {}
+  if (!r.ok) throw new Error(d.fehler || "Server-Fehler (" + r.status + ")");
+}
+async function logout() {
+  try { if (DEMO) sessionStorage.removeItem("alo-demo-login"); else await fetch("/api/admin/logout", { method: "POST", credentials: "same-origin" }); } catch {}
+}
+function zeigeLogin() { $("#v-wahl").hidden = true; $("#v-login").hidden = false; $("#pw").value = ""; $("#pw").focus(); }
+function zeigeWahl() {
+  $("#v-login").hidden = true; $("#v-wahl").hidden = false; $("#demo").hidden = !DEMO;
+  if (SUFFIX) { $("#l-partys").href += SUFFIX; $("#l-locations").href += SUFFIX; }
+}
+
+$("#f-login").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const b = $("#b-login"); b.disabled = true; $("#err").textContent = "";
+  try { await login($("#pw").value); zeigeWahl(); }
+  catch (x) { $("#err").textContent = x.message || "Anmeldung fehlgeschlagen."; }
+  finally { b.disabled = false; }
+});
+$("#b-logout").addEventListener("click", async () => { await logout(); zeigeLogin(); });
+session().then((ok) => ok ? zeigeWahl() : zeigeLogin());
+</script>
 </body>
 </html>
